@@ -1,0 +1,305 @@
+<div>
+  <div class="flex justify-between">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Overview of companies, users, learning activity and AI usage across the platform</p>
+    </div>
+    <div class="flex items-center gap-4">
+      <p-button
+        icon="pi pi-upload"
+        outlined
+        class="white-btn"
+        label="Export report"
+        severity="secondary"
+      />
+      <p-button icon="pi pi-plus" class="emerald-btn" label="Create Company" />
+    </div>
+  </div>
+  <div class="my-6 grid grid-cols-4 gap-5">
+    <p-card>
+      <div class="flex justify-between items-center mb-3">
+        <p class="font-semibold text-gray-500">TOTAL COMPANIES</p>
+        <ui-chip icon="pi-arrow-up-right" variant="success"> 12 % </ui-chip>
+      </div>
+
+      <p class="m-0">
+        Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet...
+      </p>
+    </p-card>
+    <p-card>
+      <div class="flex justify-between items-center mb-3">
+        <p class="font-semibold text-gray-500">TOTAL COMPANIES</p>
+        <ui-chip icon="pi-arrow-up-right" variant="success"> 12 % </ui-chip>
+      </div>
+
+      <p class="m-0">
+        Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet...
+      </p>
+    </p-card>
+    <p-card>
+      <div class="flex justify-between items-center mb-3">
+        <p class="font-semibold text-gray-500">TOTAL COMPANIES</p>
+        <ui-chip icon="pi-arrow-up-right" variant="success"> 12 % </ui-chip>
+      </div>
+
+      <p class="m-0">
+        Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet...
+      </p>
+    </p-card>
+    <p-card>
+      <div class="flex justify-between items-center mb-3">
+        <p class="font-semibold text-gray-500">TOTAL COMPANIES</p>
+        <ui-chip icon="pi-arrow-up-right" variant="success"> 12 % </ui-chip>
+      </div>
+
+      <p class="m-0">
+        Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet... Lorem ipsum dolor sit amet...
+      </p>
+    </p-card>
+  </div>
+
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-8 space-y-6">
+      <p-card>
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-lg font-semibold text-slate-900">Learning Activity</h2>
+            <p class="text-sm text-slate-500">Sessions, completions, and drops over time</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="card flex justify-center">
+              <p-select optionLabel="name" placeholder="Select a City" class="w-full md:w-56" />
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="h-56 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-sm"
+        >
+          Area chart placeholder (Sessions vs Completions)
+        </div>
+
+        <div class="mt-6 grid grid-cols-3 gap-4">
+          <div class="rounded-lg bg-slate-50 p-4">
+            <p class="text-sm text-slate-500">Sessions</p>
+            <p class="text-xl font-semibold text-slate-900">48,320</p>
+            <p class="text-xs text-emerald-600">+9.4% vs prev. period</p>
+          </div>
+
+          <div class="rounded-lg bg-slate-50 p-4">
+            <p class="text-sm text-slate-500">Completions</p>
+            <p class="text-xl font-semibold text-slate-900">9,842</p>
+            <p class="text-xs text-slate-500">Completion rate 32%</p>
+          </div>
+
+          <div class="rounded-lg bg-slate-50 p-4">
+            <p class="text-sm text-slate-500">Drop-off</p>
+            <p class="text-xl font-semibold text-slate-900">14%</p>
+            <p class="text-xs text-red-500">-1.2 pts vs prev.</p>
+          </div>
+        </div>
+      </p-card>
+      <p-card>
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-lg font-semibold text-slate-900">Recent</h2>
+            <p class="text-sm text-slate-500">Sessions, completions, and drops over time</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="card flex justify-center">
+              <p class="text-sm text-slate-500">Lastest 24 hours</p>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="h-8 w-8 rounded-full bg-emerald-100 text-emerald-700 text-center flex items-center justify-center text-sm"
+              >
+                A
+              </div>
+              <div>
+                <span class="text-sm text-slate-900">Alex Kimb</span>
+                <p class="text-sm text-slate-500">alex@gmail.com</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-900">Asce corp</p>
+            </div>
+            <div class="text-right">
+              <ui-chip class="" variant="success"> Course published</ui-chip>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-900">Intro to product Management</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-gray-500">4 min ago</p>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <div class="col-span-4 space-y-6">
+      <div class="rounded-xl bg-white p-6 shadow-sm border border-slate-200">
+        <div class="mb-4">
+          <h3 class="text-md font-semibold text-slate-900">Top Companies by Usage</h3>
+          <p class="text-sm text-slate-500">Based on active users and learning time</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="h-8 w-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm"
+              >
+                A
+              </div>
+              <span class="text-sm text-slate-900">Acme Corp</span>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-900">1,240</p>
+              <p class="text-xs text-slate-500">8,420 hrs</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="h-8 w-8 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center text-sm"
+              >
+                T
+              </div>
+              <span class="text-sm text-slate-900">TechFlow Inc.</span>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-900">860</p>
+              <p class="text-xs text-slate-500">5,310 hrs</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="h-8 w-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm"
+              >
+                S
+              </div>
+              <span class="text-sm text-slate-900">Startup Lab</span>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-900">420</p>
+              <p class="text-xs text-slate-500">2,180 hrs</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div
+                class="h-8 w-8 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-sm"
+              >
+                F
+              </div>
+              <span class="text-sm text-slate-900">FinTech Solutions</span>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-900">1,050</p>
+              <p class="text-xs text-slate-500">7,120 hrs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-xl bg-white p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-md font-semibold text-slate-900">AI Usage Snapshot</h3>
+            <p class="text-sm text-slate-500">Top models and features across tenants</p>
+          </div>
+          <button class="text-sm text-indigo-600 hover:underline">Manage limits</button>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex items-center justify-between">
+            <div class="text-sm text-slate-500">Chat & explanations</div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-green-600">8.3M tokens</span>
+              <div class="w-24 h-2 bg-slate-200 rounded-full">
+                <div class="w-3/4 h-full bg-green-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between">
+            <div class="text-sm text-slate-500">AI scoring & feedback</div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-blue-600">2.9M tokens</span>
+              <div class="w-24 h-2 bg-slate-200 rounded-full">
+                <div class="w-2/3 h-full bg-blue-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between">
+            <div class="text-sm text-slate-500">Notebook LLM</div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-purple-600">1.2M tokens</span>
+              <div class="w-24 h-2 bg-slate-200 rounded-full">
+                <div class="w-1/3 h-full bg-purple-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 border-t border-slate-200 pt-4">
+            <div class="flex justify-between text-sm text-slate-500">
+              <span>Estimated spend this month</span>
+              <span class="font-medium text-slate-900">$482.40</span>
+            </div>
+            <div class="flex justify-between text-sm text-slate-500 mt-2">
+              <span>Top consumer</span>
+              <span class="font-medium text-slate-900">Acme Corp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-xl bg-white p-6 shadow-sm border border-slate-200 mt-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-md font-semibold text-slate-900">System Health</h3>
+            <p class="text-sm text-slate-500">Key services and error rates</p>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex items-center justify-between">
+            <div class="text-sm text-center text-slate-500">
+              <i class="pi pi-server text-green-600"></i>
+              API latency
+            </div>
+            <div class="text-xs text-slate-900">210ms p95</div>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between">
+            <div class="text-sm text-slate-500">
+              <i class="pi pi-chart-bar text-green-600"></i>
+              Error rate
+            </div>
+            <div class="text-xs text-green-600">0.21% (last hour)</div>
+          </div>
+
+          <div class="mt-4 flex items-center justify-between">
+            <div class="text-sm text-slate-500">
+              <i class="pi pi-database text-green-600"></i>
+              Background jobs
+            </div>
+            <div class="text-xs text-slate-900">Queue healthy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

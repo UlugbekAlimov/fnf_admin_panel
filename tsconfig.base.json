@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@fnf-admin/management": ["libs/features/management/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

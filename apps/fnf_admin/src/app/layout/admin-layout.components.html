@@ -1,0 +1,114 @@
+<div class="min-h-screen bg-slate-50 text-slate-800">
+  <div class="flex">
+    <aside
+      class="flex min-h-screen w-[280px] flex-col border-r border-slate-200 bg-white px-3 py-6 shadow-sm"
+    >
+      <div class="mb-8 pl-3 flex items-center gap-3">
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200 text-base font-semibold text-black shadow-brand-glow"
+        >
+          B
+        </div>
+        <div>
+          <p class="text-lg font-bold text-slate-900">Brooklyn LMS</p>
+        </div>
+      </div>
+
+      <nav class="flex-1 space-y-7 overflow-y-auto pr-1 ">
+        @for (section of sections; track section) {
+        <div>
+          @if (section.title) {
+          <p class="mb-3 pl-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            {{ section.title }}
+          </p>
+          }
+          <ul class="space-y-1">
+            @for (item of section.items; track item) {
+            <li>
+              <button
+                type="button"
+                (click)="setActive(item.label)"
+                [routerLink]="item.path"
+                class="group flex w-full items-center gap-1 cursor-pointer rounded-lg px-3 py-2.5 text-sm font-medium transition"
+                [ngClass]="{
+                  'bg-emerald-400 text-black shadow-none': isActive(item.label),
+                  'text-slate-700 hover:bg-slate-100 hover:text-slate-900': !isActive(item.label)
+                }"
+              >
+                <span
+                  class="flex h-6 w-6 items-center justify-center rounded-lg text-base transition"
+                  [ngClass]="
+                    isActive(item.label)
+                      ? ' text-emerald-950'
+                      : 'text-slate-600 group-hover:text-slate-800'
+                  "
+                >
+                  <i class="pi" [ngClass]="item.icon"></i>
+                </span>
+                <span class="truncate">{{ item.label }}</span>
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+        }
+      </nav>
+
+      <div class="mt-8 flex items-center gap-3 px-4 py-3">
+        <div
+          class="h-10 w-10 rounded-full bg-cover bg-center"
+          style="
+            background-image: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80');
+          "
+        ></div>
+        <div>
+          <p class="text-sm font-semibold text-slate-900">Super Admin</p>
+          <p class="text-xs text-slate-500">super@brooklyn.lms</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 space-y-6">
+      <header
+        class="flex flex-wrap items-center gap-4 border border-slate-200 bg-white/90 px-4 py-3 shadow-sm"
+      >
+
+        <button
+          type="button"
+          class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-inner hover:bg-slate-50"
+        >
+          <i class="pi pi-globe text-slate-500"></i>
+          <span>Global (Super Admin)</span>
+          <i class="pi pi-chevron-down text-xs text-slate-400"></i>
+        </button>
+
+        <div
+          class="flex flex-1 items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-900 shadow-inner max-w-[400px] min-w-[320px]"
+        >
+          <i class="pi pi-search text-emerald-600"></i>
+          <input
+            type="text"
+            placeholder="Search anything..."
+            class="w-full border-none bg-transparent text-sm text-emerald-900 placeholder:text-emerald-600/70 focus:outline-none"
+          />
+          <span class="rounded-md border border-white/70 bg-white/80 px-2 py-1 text-[11px] font-semibold text-emerald-700 shadow-sm">
+            ⌘K
+          </span>
+        </div>
+
+        <div class="ml-auto flex items-center gap-3">
+          <button
+            type="button"
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-inner hover:bg-slate-50"
+          >
+            <i class="pi pi-bell text-lg"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="rounded-2xl m-6 text-slate-400">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

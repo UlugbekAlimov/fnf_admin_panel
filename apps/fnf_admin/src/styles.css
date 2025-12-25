@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+
+:root {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1 {
+  @apply text-2xl font-semibold text-black
+}
+
+.p-button.emerald-btn {
+  @apply bg-emerald-600 shadow-none;
+}
+.p-button.emerald-btn:hover {
+  @apply text-slate-700 bg-emerald-500;
+}
+
+.p-button.white-btn {
+  border: 1px solid #000000;
+}

@@ -1,0 +1,9 @@
+<div
+  class="inline-flex items-center text-center gap-1.5
+         h-6 px-2 rounded-full
+         text-md font-medium"
+  [ngClass]="variantClass"
+>
+  <i *ngIf="icon" class="pi {{ icon }}"></i>
+  <span><ng-content></ng-content></span>
+</div>

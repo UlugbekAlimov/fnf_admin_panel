@@ -1,0 +1,55 @@
+<div class="card">
+  <p-table [value]="value" [tableStyle]="tableStyle">
+    <ng-template #header>
+      <tr>
+        <th *ngIf="showPhoto">{{ photoHeader }}</th>
+        <th *ngFor="let col of columns">{{ col.header }}</th>
+        <th *ngIf="chipTemplate">{{ chipHeader }}</th>
+        <th *ngIf="actionsTemplate">{{ actionsHeader }}</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-row>
+      <tr>
+        <td *ngIf="showPhoto">
+          <img [src]="row[photoField]" [alt]="row[photoAltField] || ''" [class]="photoClass" />
+        </td>
+        <td *ngFor="let col of columns">
+          <ng-container *ngIf="isChipField(col.field); else textCell">
+            <ui-chip
+              [variant]="row[getChipVariantField(col.field)]"
+              [icon]="row[getChipIconField(col.field)]"
+            >
+              {{ row[col.field] }}
+            </ui-chip>
+          </ng-container>
+          <ng-template #textCell>
+            {{ row[col.field] }}
+          </ng-template>
+        </td>
+        <td *ngIf="chipTemplate">
+          <ng-container
+            *ngTemplateOutlet="chipTemplate; context: { $implicit: row }"
+          ></ng-container>
+        </td>
+        <td *ngIf="actionsTemplate">
+          <ng-container
+            *ngTemplateOutlet="actionsTemplate; context: { $implicit: row }"
+          ></ng-container>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td [attr.colspan]="totalColumns">{{ emptyMessage }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-paginator
+    *ngIf="showPaginator"
+    (onPageChange)="handlePageChange($event)"
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+  />
+</div>

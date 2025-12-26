@@ -15,7 +15,12 @@ export const appRoutes: Route[] = [
         path: 'companies',
         loadChildren: () =>
           import('@fnf-admin/management').then(m => m.managementRoutes)
-      }
+      },
+      {
+        path: 'users-roles',
+        loadChildren: () =>
+          import('@fnf-admin/management').then(m => m.managementRoutes)
+      },
     ],
   },
 ];

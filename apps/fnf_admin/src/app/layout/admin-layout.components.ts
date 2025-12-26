@@ -83,8 +83,13 @@ export class AdminLayoutComponent {
     this.activeLabel = label;
   }
 
-  isActive(label: string) {
-    const item = this.sections.flatMap((s) => s.items).find((i) => i.label === label);
-    return item?.path === this.router.url;
+  isActive(label: string): boolean {
+    const item = this.sections
+      .flatMap((s) => s.items)
+      .find((i) => i.label === label);
+
+    if (!item?.path) return false;
+
+    return this.router.url.startsWith(item.path);
   }
 }

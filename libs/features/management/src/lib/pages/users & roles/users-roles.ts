@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from '../../../../../../shared/table/table';
 
@@ -10,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { ContextMenuModule } from 'primeng/contextmenu';
 
 @Component({
-  selector: 'management-companies',
+  selector: 'management-users-roles',
   standalone: true,
   imports: [
     Button,
@@ -22,10 +23,9 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     UiTableComponent,
     ContextMenuModule,
   ],
-  templateUrl: './companies.html',
-  styleUrls: ['./companies.css'],
+  templateUrl: './users-roles.html',
 })
-export class ManagementCompanies implements OnInit {
+export class UsersRolesPage implements OnInit {
   items: any[] | undefined;
 
   ngOnInit() {

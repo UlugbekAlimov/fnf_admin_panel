@@ -1,15 +1,13 @@
 <div>
   <div class="flex justify-between">
     <h1>Companies</h1>
-    <p-button icon="pi pi-plus" class="emerald-btn" label="Create Company" />
+    <p-button icon="pi pi-envelope" class="emerald-btn" label="Invite user" />
   </div>
   <div class="flex justify-between">
     <div class="mt-5 space-x-2">
-      <input class="" pInputText [(ngModel)]="value2" type="text" placeholder="Search company" />
-      <p-select icon="pi pi-upload" optionLabel="name" placeholder="Plans"> </p-select>
-      <p-select optionLabel="name" placeholder="Select a City" />
-    </div>
-    <div class="mt-5">
+      <input class="" pInputText [(ngModel)]="value2" type="text" placeholder="Search by Name" />
+      <p-select icon="pi pi-upload" optionLabel="name" placeholder="Role"> </p-select>
+      <p-select optionLabel="name" placeholder="All statuses" />
       <p-datepicker
         [(ngModel)]="dates"
         [showButtonBar]="true"
@@ -41,6 +39,9 @@
           </div>
         </ng-template>
       </p-datepicker>
+    </div>
+    <div class="mt-5">
+        <p-select optionLabel="name" placeholder="Bulk actions" />
     </div>
   </div>
   <div class="mt-5">

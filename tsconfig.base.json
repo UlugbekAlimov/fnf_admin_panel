@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@fnf-admin/management": ["libs/features/management/src/index.ts"]
+      "@fnf-admin/management": ["libs/features/management/src/index.ts"],
+      "@fnf-admin/education": ["libs/features/education/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

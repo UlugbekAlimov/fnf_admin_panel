@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from '../../../../../../shared/table/table';
+import { UserDelete } from './user-delete';
+import { UserDetail } from './user-detail';
+import { UserEdit } from './user-edit';
 
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
-import { ContextMenuModule } from 'primeng/contextmenu';
 
 @Component({
-  selector: 'management-users-roles',
+  selector: 'management-users',
   standalone: true,
   imports: [
     Button,
@@ -21,27 +23,31 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     DatePickerModule,
     ButtonModule,
     UiTableComponent,
-    ContextMenuModule,
+    UserEdit,
+    UserDelete,
+    UserDetail,
   ],
-  templateUrl: './users-roles.html',
+  templateUrl: './users.html',
 })
-export class UsersRolesPage implements OnInit {
-  items: any[] | undefined;
-
-  ngOnInit() {
-    this.items = [
-      { label: 'Edit', icon: 'pi pi-pencil' },
-      { label: 'Delete', icon: 'pi pi-trash' },
-    ];
-  }
+export class UsersPage {
   value2: string = '';
   date: Date | undefined;
 
   dates: Date[] | undefined;
 
+  showEditDialog = false;
+  showDeleteDialog = false;
+  showDetailDrawer = false;
+  selectedUser: any | null = null;
+
   products = [
     {
+      id: 1,
       company: 'Acme Corp',
+      name: 'Rachel Green',
+      email: 'rachel@acme.com',
+      role: 'Manager',
+      lastActive: 'Today, 10:24',
       plan: 'Enterprise',
       status: 'Active',
       users: 120,
@@ -53,7 +59,12 @@ export class UsersRolesPage implements OnInit {
       statusIcon: 'pi pi-check',
     },
     {
+      id: 2,
       company: 'Globex',
+      name: 'David Miller',
+      email: 'david@globex.com',
+      role: 'Owner',
+      lastActive: 'Yesterday, 18:02',
       plan: 'Pro',
       status: 'Pending',
       users: 48,
@@ -65,7 +76,12 @@ export class UsersRolesPage implements OnInit {
       statusIcon: 'pi pi-clock',
     },
     {
+      id: 3,
       company: 'Initech',
+      name: 'Lena Watts',
+      email: 'lena@initech.com',
+      role: 'Viewer',
+      lastActive: 'Dec 21, 09:10',
       plan: 'Starter',
       status: 'Inactive',
       users: 8,
@@ -92,11 +108,28 @@ export class UsersRolesPage implements OnInit {
   chipVariantFieldMap = { plan: 'planVariant', status: 'statusVariant' };
   chipIconFieldMap = { plan: 'planIcon', status: 'statusIcon' };
 
+  detail(row: any) {
+    this.selectedUser = row;
+    this.showDetailDrawer = true;
+  }
+
   edit(row: any) {
-    console.log('Edit', row);
+    this.selectedUser = row;
+    this.showEditDialog = true;
   }
 
   remove(row: any) {
-    console.log('Remove', row);
+    this.selectedUser = row;
+    this.showDeleteDialog = true;
+  }
+
+  updateUser(updated: any) {
+    this.products = this.products.map((product) =>
+      product.id === updated.id ? { ...product, ...updated } : product
+    );
+  }
+
+  confirmDelete(user: any) {
+    this.products = this.products.filter((product) => product.id !== user.id);
   }
 }

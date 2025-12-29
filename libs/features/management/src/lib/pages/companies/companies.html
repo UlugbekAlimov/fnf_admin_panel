@@ -1,13 +1,36 @@
 <div>
   <div class="flex justify-between">
     <h1>Companies</h1>
-    <p-button icon="pi pi-plus" class="emerald-btn" label="Create Company" />
+    <p-button
+      icon="pi pi-plus"
+      class="emerald-btn"
+      (click)="showDialog = true"
+      label="Create Company"
+    />
   </div>
   <div class="flex justify-between">
     <div class="mt-5 space-x-2">
-      <input class="" pInputText [(ngModel)]="value2" type="text" placeholder="Search company" />
-      <p-select icon="pi pi-upload" optionLabel="name" placeholder="Plans"> </p-select>
-      <p-select optionLabel="name" placeholder="Select a City" />
+      <input
+        class=""
+        pInputText
+        [(ngModel)]="searchTerm"
+        type="text"
+        placeholder="Search company"
+      />
+      <p-select
+        icon="pi pi-upload"
+        [options]="plans"
+        [(ngModel)]="selectedPlan"
+        optionLabel="name"
+        placeholder="Plans"
+      >
+      </p-select>
+      <p-select
+        [options]="cities"
+        [(ngModel)]="selectedCity"
+        optionLabel="name"
+        placeholder="Select a City"
+      />
     </div>
     <div class="mt-5">
       <p-datepicker
@@ -45,23 +68,41 @@
   </div>
   <div class="mt-5">
     <ui-table
-      [value]="products"
+      [value]="filteredProducts"
       [columns]="tableColumns"
       [totalRecords]="totalRecords"
       [rowsPerPageOptions]="rowsPerPageOptions"
+      [showIndex]="true"
       [showPhoto]="true"
-      photoField="photo"
-      photoAltField="company"
-      photoHeader="Company"
+      photoField="logo"
+      photoAltField="name"
+      photoHeader="Logo"
       [chipFields]="chipFields"
       [chipVariantFieldMap]="chipVariantFieldMap"
       actionsHeader=""
+      actionsColWidth="3.5rem"
     >
       <ng-template #actions let-row>
-        <button #btn (click)="edit(row)"><i class="pi pi-ellipsis-v"></i></button>
-
-        <p-contextmenu [target]="btn" appendTo="body" [model]="items" />
+        <div class="flex items-center gap-2 justify-center">
+          <button (click)="detail(row)"><i class="cursor-pointer text-green-500 pi pi-eye"></i></button>
+          <button (click)="edit(row)"><i class="cursor-pointer text-amber-500 pi pi-pencil"></i></button>
+          <button (click)="remove(row)"><i class="cursor-pointer text-red-500 pi pi-trash"></i></button>
+        </div>
       </ng-template>
     </ui-table>
   </div>
+
+  <companies-create [(visible)]="showDialog"></companies-create>
+  <company-edit
+    [(visible)]="showEditDialog"
+    [company]="selectedCompany"
+    (save)="updateCompany($event)"
+  ></company-edit>
+  <company-delete
+    [(visible)]="showDeleteDialog"
+    [company]="selectedCompany"
+    (confirm)="confirmDelete($event)"
+  ></company-delete>
+
+  <company-detail [(visible)]="showDetailDrawer" [company]="selectedCompany"></company-detail>
 </div>

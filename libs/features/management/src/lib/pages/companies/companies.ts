@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from '../../../../../../shared/table/table';
+import { CompaniesCreate } from './company-create/company-create';
+import { CompanyDelete } from './company-delete/company-delete';
+import { CompanyEdit } from './company-edit/company-edit';
+import { CompanyDetail } from './company-detail/company-detail';
 
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
-import { ContextMenuModule } from 'primeng/contextmenu';
-
 @Component({
   selector: 'management-companies',
   standalone: true,
@@ -20,83 +22,142 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     DatePickerModule,
     ButtonModule,
     UiTableComponent,
-    ContextMenuModule,
+
+    CompaniesCreate,
+    CompanyEdit,
+    CompanyDelete,
+    CompanyDetail,
   ],
   templateUrl: './companies.html',
   styleUrls: ['./companies.css'],
 })
 export class ManagementCompanies implements OnInit {
+  showDialog: boolean = false;
+  showEditDialog = false;
+  showDeleteDialog = false;
+  showDetailDrawer = false;
+  selectedCompany: any | null = null;
   items: any[] | undefined;
 
-  ngOnInit() {
-    this.items = [
-      { label: 'Edit', icon: 'pi pi-pencil' },
-      { label: 'Delete', icon: 'pi pi-trash' },
-    ];
-  }
-  value2: string = '';
+  ngOnInit() {}
+  searchTerm = '';
+
   date: Date | undefined;
 
   dates: Date[] | undefined;
 
   products = [
     {
-      company: 'Acme Corp',
+      id: 1,
+      name: 'Acme Corp',
+      slug: 'acme-corp',
+      createdAt: '2023-01-12',
+      email: 'admin@acme.com',
       plan: 'Enterprise',
+      usersCount: 120,
+      seatsUsed: 1240,
+      seatsTotal: 2000,
+      storageUsed: 450,
+      storageTotal: 1024,
       status: 'Active',
-      users: 120,
-      created_at: '2023-01-01',
-      photo: '/favicon.ico',
+      country: 'USA',
+      label_name: 'Enterprise',
+      logo: '/favicon.ico',
       statusVariant: 'success',
-      planVariant: 'success',
-      planIcon: 'pi pi-bolt',
-      statusIcon: 'pi pi-check',
     },
     {
-      company: 'Globex',
-      plan: 'Pro',
-      status: 'Pending',
-      users: 48,
-      created_at: '2023-02-10',
-      photo: '/favicon.ico',
-      statusVariant: 'warning',
-      planVariant: 'info',
-      planIcon: 'pi pi-box',
-      statusIcon: 'pi pi-clock',
-    },
-    {
-      company: 'Initech',
-      plan: 'Starter',
+      id: 2,
+      name: 'Globex',
+      slug: 'globex',
+      createdAt: '2023-03-02',
+      email: 'admin@globex.com',
+      plan: 'Pro Team',
+      usersCount: 48,
+      seatsUsed: 340,
+      seatsTotal: 800,
+      storageUsed: 120,
+      storageTotal: 512,
       status: 'Inactive',
-      users: 8,
-      created_at: '2023-03-05',
-      photo: '/favicon.ico',
+      country: 'Germany',
+      label_name: 'Pro Team',
+      logo: '/favicon.ico',
       statusVariant: 'danger',
-      planVariant: 'warning',
-      planIcon: 'pi pi-star',
-      statusIcon: 'pi pi-times',
+    },
+    {
+      id: 3,
+      name: 'Initech',
+      slug: 'initech',
+      createdAt: '2023-05-20',
+      email: 'admin@initech.com',
+      plan: 'Startup',
+      usersCount: 8,
+      seatsUsed: 20,
+      seatsTotal: 100,
+      storageUsed: 32,
+      storageTotal: 256,
+      status: 'Active',
+      country: 'Canada',
+      label_name: 'Startup',
+      logo: '/favicon.ico',
+      statusVariant: 'success',
     },
   ];
 
+  plans = [{ name: 'Enterprise' }, { name: 'Pro Team' }, { name: 'Startup' }];
+  cities = [{ name: 'USA' }, { name: 'Germany' }, { name: 'Canada' }];
+  selectedPlan: { name: string } | null = null;
+  selectedCity: { name: string } | null = null;
+
   tableColumns = [
-    { field: 'company', header: 'Company' },
-    { field: 'plan', header: 'Plan' },
+    { field: 'name', header: 'Name' },
     { field: 'status', header: 'Status' },
-    { field: 'users', header: 'Users' },
-    { field: 'created_at', header: 'Created At' },
+    { field: 'country', header: 'Country' },
+    { field: 'label_name', header: 'Label' },
   ];
   totalRecords = 120;
   rowsPerPageOptions = [10, 20, 30];
 
-  chipFields = ['plan', 'status'];
-  chipVariantFieldMap = { plan: 'planVariant', status: 'statusVariant' };
-  chipIconFieldMap = { plan: 'planIcon', status: 'statusIcon' };
+  chipFields = ['status'];
+  chipVariantFieldMap = { status: 'statusVariant' };
+
+  get filteredProducts() {
+    const term = this.searchTerm.trim().toLowerCase();
+    return this.products.filter((product) => {
+      if (term && !product.name.toLowerCase().includes(term)) {
+        return false;
+      }
+      if (this.selectedPlan && product.label_name !== this.selectedPlan.name) {
+        return false;
+      }
+      if (this.selectedCity && product.country !== this.selectedCity.name) {
+        return false;
+      }
+      return true;
+    });
+  }
 
   edit(row: any) {
-    console.log('Edit', row);
+    this.selectedCompany = row;
+    this.showEditDialog = true;
   }
 
   remove(row: any) {
-    console.log('Remove', row);
+    this.selectedCompany = row;
+    this.showDeleteDialog = true;
+  }
+
+  detail(row: any) {
+    this.selectedCompany = row;
+    this.showDetailDrawer = true;
+  }
+
+  updateCompany(updated: any) {
+    this.products = this.products.map((product) =>
+      product.id === updated.id ? { ...product, ...updated } : product
+    );
+  }
+
+  confirmDelete(company: any) {
+    this.products = this.products.filter((product) => product.id !== company.id);
   }
 }

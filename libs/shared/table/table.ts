@@ -21,12 +21,15 @@ export class UiTableComponent {
   @Input() value: any[] = [];
   @Input() columns: UiTableColumn[] = [];
   @Input() showPhoto = false;
+  @Input() showIndex = false;
+  @Input() indexHeader = '#';
   @Input() photoField = 'photo';
   @Input() photoAltField = 'name';
   @Input() photoHeader = '';
   @Input() photoClass = 'w-10 h-10 rounded-full object-cover';
   @Input() chipHeader = 'Status';
   @Input() actionsHeader = 'Actions';
+  @Input() actionsColWidth = '4rem';
   @Input() chipFields: string[] = [];
   @Input() chipVariantField = 'statusVariant';
   @Input() chipVariantFieldMap: Record<string, string> = {};
@@ -48,6 +51,7 @@ export class UiTableComponent {
   get totalColumns() {
     return (
       this.columns.length +
+      (this.showIndex ? 1 : 0) +
       (this.showPhoto ? 1 : 0) +
       (this.chipTemplate ? 1 : 0) +
       (this.actionsTemplate ? 1 : 0)

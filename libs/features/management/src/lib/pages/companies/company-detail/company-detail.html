@@ -1,0 +1,105 @@
+﻿<p-drawer
+  header="Company Details"
+  [visible]="drawerVisible"
+  (visibleChange)="onVisibleChange($event)"
+  position="right"
+  [style]="{ width: '34rem' }"
+>
+  <div *ngIf="company; else detailEmpty" class="space-y-6">
+    <div class="flex items-start gap-4">
+      <img
+        [src]="company.logo"
+        [alt]="company.name"
+        class="h-12 w-12 rounded-full border border-slate-200"
+      />
+      <div class="flex-1">
+        <div class="flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-slate-900">{{ company.name }}</h2>
+          <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700">
+            {{ company.status }}
+          </span>
+        </div>
+        <p class="text-sm text-slate-500">{{ company.slug }}</p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-slate-700">Company Details</h3>
+      <div class="mt-3 grid gap-3 text-sm text-slate-600">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Company name</span>
+          <span class="font-medium text-slate-900">{{ company.name }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Slug</span>
+          <span class="font-medium text-slate-900">{{ company.slug }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Created at</span>
+          <span class="font-medium text-slate-900">{{ company.createdAt }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Email</span>
+          <span class="font-medium text-slate-900">{{ company.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-slate-700">Subscription Plan</h3>
+      <div class="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">{{ company.plan }}</p>
+            <p class="text-xs text-slate-500">Users: {{ company.usersCount }}</p>
+          </div>
+          <p-button size="small" label="Manage" severity="secondary"></p-button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-slate-700">Usage & Limits</h3>
+      <div class="mt-3 space-y-3 text-sm text-slate-600">
+        <div>
+          <div class="flex justify-between">
+            <span>User seats</span>
+            <span class="font-medium text-slate-900">{{ company.seatsUsed }} / {{ company.seatsTotal }}</span>
+          </div>
+          <div class="mt-2 h-2 w-full rounded-full bg-slate-200">
+            <div
+              class="h-2 rounded-full bg-emerald-500"
+              [style.width.%]="(company.seatsUsed / company.seatsTotal) * 100"
+            ></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between">
+            <span>Storage (GB)</span>
+            <span class="font-medium text-slate-900">{{ company.storageUsed }} / {{ company.storageTotal }}</span>
+          </div>
+          <div class="mt-2 h-2 w-full rounded-full bg-slate-200">
+            <div
+              class="h-2 rounded-full bg-sky-500"
+              [style.width.%]="(company.storageUsed / company.storageTotal) * 100"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-red-200 bg-red-50 p-4">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <p class="text-sm font-semibold text-red-700">Danger Zone</p>
+          <p class="text-xs text-red-600">Suspend company access immediately.</p>
+        </div>
+        <p-button size="small" label="Suspend" severity="danger"></p-button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #detailEmpty>
+    <p class="text-sm text-slate-500">Select a company to view details.</p>
+  </ng-template>
+</p-drawer>

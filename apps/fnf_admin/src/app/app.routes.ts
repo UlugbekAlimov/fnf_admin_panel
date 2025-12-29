@@ -7,19 +7,21 @@ export const appRoutes: Route[] = [
     component: AdminLayoutComponent,
     children: [
       {
+        path: '',
+        redirectTo: '/management/dashboard',
+        pathMatch: 'full',
+      },
+      {
         path: 'management',
-        loadChildren: () =>
-          import('@fnf-admin/management').then(m => m.managementRoutes)
+        loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
       },
       {
         path: 'companies',
-        loadChildren: () =>
-          import('@fnf-admin/management').then(m => m.managementRoutes)
+        loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
       },
       {
         path: 'users-roles',
-        loadChildren: () =>
-          import('@fnf-admin/management').then(m => m.managementRoutes)
+        loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
       },
     ],
   },

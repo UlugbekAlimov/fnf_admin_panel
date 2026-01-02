@@ -15,7 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+<<<<<<< Updated upstream
       "@fnf-admin/management": ["libs/features/management/src/index.ts"]
+=======
+      "@fnf-admin/management": ["libs/features/management/src/index.ts"],
+      "@fnf-admin/education": ["libs/features/education/src/index.ts"],
+      "@fnf-admin/platform": ["/libs/features/platform/src/index.ts"]
+>>>>>>> Stashed changes
     }
   },
   "exclude": ["node_modules", "tmp"]

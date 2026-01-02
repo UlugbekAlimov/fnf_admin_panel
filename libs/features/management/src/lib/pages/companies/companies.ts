@@ -153,11 +153,12 @@ export class ManagementCompanies implements OnInit {
 
   updateCompany(updated: any) {
     this.products = this.products.map((product) =>
-      product.id === updated.id ? { ...product, ...updated } : product
+      product.id === updated.id ? { ...product, ...updated } : product,
     );
   }
 
   confirmDelete(company: any) {
     this.products = this.products.filter((product) => product.id !== company.id);
   }
+
 }

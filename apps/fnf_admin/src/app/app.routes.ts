@@ -13,6 +13,7 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'management',
+        data: { breadcrumb: 'Management' },
         loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
       },
       {
@@ -23,6 +24,12 @@ export const appRoutes: Route[] = [
         path: 'users-roles',
         loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
       },
+
+      {
+        path: 'education',
+        data: { breadcrumb: 'Education' },
+        loadChildren: () => import('@fnf-admin/education').then((m) => m.educationRoutes),
+      }
     ],
   },
 ];

@@ -5,9 +5,9 @@
     >
       <div class="sticky top-0 z-10 mb-8 flex items-center gap-3 bg-white pl-3 py-2">
         <div
-          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200 text-base font-semibold text-black shadow-brand-glow"
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-base font-semibold text-black shadow-brand-glow"
         >
-          B
+          <img src="./img/admin_logo.png" alt="">
         </div>
         <div>
           <p class="text-lg font-bold text-slate-900">Brooklyn LMS</p>
@@ -105,6 +105,10 @@
           </button>
         </div>
       </header>
+
+      <div class="mx-6 mt-4">
+        <p-breadcrumb [model]="breadcrumbs" [home]="home"></p-breadcrumb>
+      </div>
 
       <div class="rounded-2xl m-6 text-slate-400">
         <router-outlet></router-outlet>

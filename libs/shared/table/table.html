@@ -28,7 +28,14 @@
               {{ row[col.field] }}
             </ui-chip>
           </ng-container>
-          <ng-template #textCell> {{ row[col.field] }} </ng-template>
+          <ng-template #textCell>
+            <div class="flex flex-col gap-1">
+              <span>{{ row[col.field] }}</span>
+              <ng-container *ngIf="getSubTextField(col.field) as subField">
+                <span [class]="subTextClass">{{ row[subField] }}</span>
+              </ng-container>
+            </div>
+          </ng-template>
         </td>
         <td *ngIf="chipTemplate">
           <ng-container

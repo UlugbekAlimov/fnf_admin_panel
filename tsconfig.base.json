@@ -4,7 +4,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -13,10 +13,11 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@fnf-admin/management": ["libs/features/management/src/index.ts"],
-      "@fnf-admin/education": ["libs/features/education/src/index.ts"]
+      "@fnf-admin/education": ["libs/features/education/src/index.ts"],
+      "@fnf-admin/environment": ["apps/fnf_admin/src/environment/environment.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

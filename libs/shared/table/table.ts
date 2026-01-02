@@ -35,6 +35,8 @@ export class UiTableComponent {
   @Input() chipVariantFieldMap: Record<string, string> = {};
   @Input() chipIconField = 'chipIcon';
   @Input() chipIconFieldMap: Record<string, string> = {};
+  @Input() subTextFieldMap: Record<string, string> = {};
+  @Input() subTextClass = 'text-xs text-slate-500';
   @Input() totalRecords = 0;
   @Input() rows = 10;
   @Input() first = 0;
@@ -68,6 +70,10 @@ export class UiTableComponent {
 
   getChipIconField(field: string): string {
     return this.chipIconFieldMap[field] ?? this.chipIconField;
+  }
+
+  getSubTextField(field: string): string | null {
+    return this.subTextFieldMap[field] ?? null;
   }
 
   handlePageChange(event: PaginatorState) {

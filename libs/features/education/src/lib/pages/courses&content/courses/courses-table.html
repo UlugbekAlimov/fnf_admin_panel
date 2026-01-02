@@ -5,7 +5,7 @@
       icon="pi pi-plus"
       class="emerald-btn"
       (click)="showDialog = true"
-      label="Create Company"
+      label="Create Course"
     />
   </div>
   <div class="flex justify-between">
@@ -68,16 +68,16 @@
   </div>
   <div class="mt-5">
     <ui-table
-      [value]="filteredProducts"
+      [value]="products"
       [columns]="tableColumns"
       [totalRecords]="totalRecords"
       [rowsPerPageOptions]="rowsPerPageOptions"
       [showIndex]="true"
       [showPhoto]="true"
+      [subTextFieldMap]="{ name: 'slug' }"
       photoField="logo"
       photoAltField="name"
       photoHeader="Logo"
-      [subTextFieldMap]="{ name: 'slug' }"
       [chipFields]="chipFields"
       [chipVariantFieldMap]="chipVariantFieldMap"
       actionsHeader=""
@@ -85,25 +85,19 @@
     >
       <ng-template #actions let-row>
         <div class="flex items-center gap-2 justify-center">
-          <button (click)="detail(row)"><i class="cursor-pointer text-green-500 pi pi-eye"></i></button>
-          <button (click)="edit(row)"><i class="cursor-pointer text-amber-500 pi pi-pencil"></i></button>
-          <button (click)="remove(row)"><i class="cursor-pointer text-red-500 pi pi-trash"></i></button>
+          <button (click)="detail(row)">
+            <i class="cursor-pointer text-green-500 pi pi-eye"></i>
+          </button>
+          <button (click)="edit(row)">
+            <i class="cursor-pointer text-amber-500 pi pi-pencil"></i>
+          </button>
+          <button (click)="remove(row)">
+            <i class="cursor-pointer text-red-500 pi pi-trash"></i>
+          </button>
         </div>
       </ng-template>
     </ui-table>
   </div>
-
-  <companies-create [(visible)]="showDialog"></companies-create>
-  <company-edit
-    [(visible)]="showEditDialog"
-    [company]="selectedCompany"
-    (save)="updateCompany($event)"
-  ></company-edit>
-  <company-delete
-    [(visible)]="showDeleteDialog"
-    [company]="selectedCompany"
-    (confirm)="confirmDelete($event)"
-  ></company-delete>
-
-  <company-detail [(visible)]="showDetailDrawer" [company]="selectedCompany"></company-detail>
 </div>
+
+<courses-table [visible]="showDialog"></courses-table>

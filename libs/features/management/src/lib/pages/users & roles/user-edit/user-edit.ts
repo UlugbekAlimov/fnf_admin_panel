@@ -68,7 +68,7 @@ export class UserEdit {
     const updated = {
       ...this.currentUser,
       name: this.editName.trim() || this.currentUser.name,
-      company: this.currentUser.company ?? this.editName.trim() || this.currentUser.company,
+      company: this.currentUser.company ?? (this.editName.trim() || this.currentUser.company),
       email: this.editEmail.trim() || this.currentUser.email,
       role: this.editRole?.name ?? this.currentUser.role,
       plan: planName,

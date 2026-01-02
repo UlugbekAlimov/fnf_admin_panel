@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from '../../../../../../shared/table/table';
-import { UserDelete } from './user-delete';
-import { UserDetail } from './user-detail';
-import { UserEdit } from './user-edit';
+import { UserDelete } from './user-delete/user-delete';
+import { UserDetail } from './user-detail/user-detail';
+import { UserEdit } from './user-edit/user-edit';
 
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';

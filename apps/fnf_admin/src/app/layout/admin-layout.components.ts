@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { MenuItem } from 'primeng/api';
 
 type IconName =
   | 'pi-th-large'
@@ -33,11 +35,24 @@ interface NavSection {
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [CommonModule, NgClass, RouterModule],
+  imports: [CommonModule, NgClass, RouterModule, BreadcrumbModule],
   templateUrl: './admin-layout.components.html',
 })
 export class AdminLayoutComponent {
-  constructor(private router: Router) {}
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/management/dashboard' };
+  breadcrumbs: MenuItem[] = [];
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    this.breadcrumbs = this.buildBreadcrumbs(this.route.root);
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.breadcrumbs = this.buildBreadcrumbs(this.route.root);
+      });
+  }
 
   sections: NavSection[] = [
     {
@@ -91,5 +106,34 @@ export class AdminLayoutComponent {
     if (!item?.path) return false;
 
     return this.router.url.startsWith(item.path);
+  }
+
+  private buildBreadcrumbs(
+    route: ActivatedRoute,
+    url: string = '',
+    breadcrumbs: MenuItem[] = []
+  ): MenuItem[] {
+    const children = route.children;
+
+    if (!children || children.length === 0) {
+      return breadcrumbs;
+    }
+
+    for (const child of children) {
+      const snapshot = child.snapshot;
+      const routeURL = snapshot?.url?.map((segment) => segment.path).join('/') ?? '';
+      if (routeURL) {
+        url += `/${routeURL}`;
+      }
+
+      const label = snapshot?.data?.['breadcrumb'];
+      if (label) {
+        breadcrumbs.push({ label, routerLink: url });
+      }
+
+      return this.buildBreadcrumbs(child, url, breadcrumbs);
+    }
+
+    return breadcrumbs;
   }
 }

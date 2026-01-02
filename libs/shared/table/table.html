@@ -2,14 +2,20 @@
   <p-table [value]="value" [tableStyle]="tableStyle">
     <ng-template #header>
       <tr>
+        <th></th>
+        <th *ngIf="showIndex">{{ indexHeader }}</th>
         <th *ngIf="showPhoto">{{ photoHeader }}</th>
         <th *ngFor="let col of columns">{{ col.header }}</th>
         <th *ngIf="chipTemplate">{{ chipHeader }}</th>
-        <th *ngIf="actionsTemplate">{{ actionsHeader }}</th>
+        <th *ngIf="actionsTemplate" [style.width]="actionsColWidth">{{ actionsHeader }}</th>
       </tr>
     </ng-template>
-    <ng-template #body let-row>
+    <ng-template #body let-row let-rowIndex="rowIndex">
       <tr>
+        <td>
+          <p-tableCheckbox />
+        </td>
+        <td *ngIf="showIndex">{{ rowIndex + 1 }}</td>
         <td *ngIf="showPhoto">
           <img [src]="row[photoField]" [alt]="row[photoAltField] || ''" [class]="photoClass" />
         </td>
@@ -23,7 +29,12 @@
             </ui-chip>
           </ng-container>
           <ng-template #textCell>
-            {{ row[col.field] }}
+            <div class="flex flex-col gap-1">
+              <span>{{ row[col.field] }}</span>
+              <ng-container *ngIf="getSubTextField(col.field) as subField">
+                <span [class]="subTextClass">{{ row[subField] }}</span>
+              </ng-container>
+            </div>
           </ng-template>
         </td>
         <td *ngIf="chipTemplate">
@@ -31,7 +42,7 @@
             *ngTemplateOutlet="chipTemplate; context: { $implicit: row }"
           ></ng-container>
         </td>
-        <td *ngIf="actionsTemplate">
+        <td *ngIf="actionsTemplate" [style.width]="actionsColWidth">
           <ng-container
             *ngTemplateOutlet="actionsTemplate; context: { $implicit: row }"
           ></ng-container>

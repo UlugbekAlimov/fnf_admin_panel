@@ -21,17 +21,22 @@ export class UiTableComponent {
   @Input() value: any[] = [];
   @Input() columns: UiTableColumn[] = [];
   @Input() showPhoto = false;
+  @Input() showIndex = false;
+  @Input() indexHeader = '#';
   @Input() photoField = 'photo';
   @Input() photoAltField = 'name';
   @Input() photoHeader = '';
   @Input() photoClass = 'w-10 h-10 rounded-full object-cover';
   @Input() chipHeader = 'Status';
   @Input() actionsHeader = 'Actions';
+  @Input() actionsColWidth = '4rem';
   @Input() chipFields: string[] = [];
   @Input() chipVariantField = 'statusVariant';
   @Input() chipVariantFieldMap: Record<string, string> = {};
   @Input() chipIconField = 'chipIcon';
   @Input() chipIconFieldMap: Record<string, string> = {};
+  @Input() subTextFieldMap: Record<string, string> = {};
+  @Input() subTextClass = 'text-xs text-slate-500';
   @Input() totalRecords = 0;
   @Input() rows = 10;
   @Input() first = 0;
@@ -48,6 +53,7 @@ export class UiTableComponent {
   get totalColumns() {
     return (
       this.columns.length +
+      (this.showIndex ? 1 : 0) +
       (this.showPhoto ? 1 : 0) +
       (this.chipTemplate ? 1 : 0) +
       (this.actionsTemplate ? 1 : 0)
@@ -64,6 +70,10 @@ export class UiTableComponent {
 
   getChipIconField(field: string): string {
     return this.chipIconFieldMap[field] ?? this.chipIconField;
+  }
+
+  getSubTextField(field: string): string | null {
+    return this.subTextFieldMap[field] ?? null;
   }
 
   handlePageChange(event: PaginatorState) {

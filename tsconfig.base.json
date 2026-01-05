@@ -17,7 +17,8 @@
     "paths": {
       "@fnf-admin/management": ["libs/features/management/src/index.ts"],
       "@fnf-admin/education": ["libs/features/education/src/index.ts"],
-      "@fnf-admin/environment": ["apps/fnf_admin/src/environment/environment.ts"]
+      "@fnf-admin/environment": ["apps/fnf_admin/src/environment/environment.ts"],
+      "@fnf-admin/platform": ["libs/features/platform/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

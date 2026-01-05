@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HttpClient, } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
@@ -8,11 +9,12 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
-import { ReactiveFormsModule, } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { CompanyService } from '../core/company.service';
-import { CompanyCreate } from '../core/company.model';
+import { CompanyCreate, AutoCompleteCompleteEvent } from '../core/company.model';
 import { ToastService } from '../../../../../../../shared/toast/toast.service';
 
 @Component({
@@ -22,38 +24,66 @@ import { ToastService } from '../../../../../../../shared/toast/toast.service';
     InputTextModule,
     FormsModule,
     ReactiveFormsModule,
+    
 
     Button,
-    Select,
     DatePickerModule,
     ButtonModule,
     Dialog,
     ColorPickerModule,
-
+    AutoCompleteModule,
   ],
   templateUrl: './company-create.html',
 })
-export class CompaniesCreate {
+export class CompaniesCreate implements OnInit {
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
   name = '';
   slug = '';
-  country: { name: string } | null = null;
+  country: { name: string; code: string } | null = null;
   timezone = '';
 
-  countries = [{ name: 'USA' }, { name: 'Germany' }, { name: 'France' }, { name: 'Canada' }];
+  countries: { name: string; code: string }[] = [];
+  filteredCountries: { name: string; code: string }[] = [];
 
   statuses = [{ name: 'Active' }, { name: 'Inactive' }];
 
   constructor(
+    private http: HttpClient,
     private companyService: CompanyService,
     private toast: ToastService,
   ) {}
 
+  ngOnInit() {
+    this.http
+      .get<{ name: string; code: string }[]>('/countries/countries.json')
+      .subscribe({
+        next: (data) => {
+          this.countries = data ?? [];
+          this.filteredCountries = this.countries;
+        },
+        error: () => {
+          this.countries = [];
+          this.filteredCountries = [];
+        },
+      });
+  }
+
   close() {
     this.resetForm();
     this.visibleChange.emit(false);
+  }
+
+  search(event: AutoCompleteCompleteEvent) {
+    const query = (event.query ?? '').toLowerCase();
+    if (!query) {
+      this.filteredCountries = this.countries;
+      return;
+    }
+    this.filteredCountries = this.countries.filter((country) =>
+      country.name.toLowerCase().includes(query),
+    );
   }
 
   submit() {

@@ -44,6 +44,7 @@ export class UiTableComponent {
   @Input() showPaginator = true;
   @Input() emptyMessage = 'No records found';
   @Input() tableStyle: Record<string, string> = { 'min-width': '50rem' };
+  @Input() loading = false;
 
   @ContentChild('chip', { read: TemplateRef }) chipTemplate?: TemplateRef<any>;
   @ContentChild('actions', { read: TemplateRef }) actionsTemplate?: TemplateRef<any>;

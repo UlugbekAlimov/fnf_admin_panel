@@ -1,5 +1,5 @@
 <div class="card">
-  <p-table [value]="value" [tableStyle]="tableStyle">
+  <p-table [value]="value" [tableStyle]="tableStyle" [loading]="loading">
     <ng-template #header>
       <tr>
         <th></th>
@@ -15,7 +15,7 @@
         <td>
           <p-tableCheckbox />
         </td>
-        <td *ngIf="showIndex">{{ rowIndex + 1 }}</td>
+        <td *ngIf="showIndex">{{ rowIndex + 1 + first }}</td>
         <td *ngIf="showPhoto">
           <img [src]="row[photoField]" [alt]="row[photoAltField] || ''" [class]="photoClass" />
         </td>
@@ -62,5 +62,6 @@
     [rows]="rows"
     [totalRecords]="totalRecords"
     [rowsPerPageOptions]="rowsPerPageOptions"
+    styleClass="ui-table-paginator-sticky"
   />
 </div>

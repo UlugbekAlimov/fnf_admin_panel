@@ -17,7 +17,6 @@ import { Select } from 'primeng/select';
 })
 export class ManagementDashboard {
   showDetailDrawer = false;
-  selectedCompany: any | null = null;
 
   topCompanies = [
     {
@@ -107,7 +106,7 @@ export class ManagementDashboard {
   ];
 
   openCompanyDetail(company: any) {
-    this.selectedCompany = company;
+    void company;
     this.showDetailDrawer = true;
   }
 }

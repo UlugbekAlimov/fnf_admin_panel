@@ -4,7 +4,7 @@
     <p-button
       icon="pi pi-plus"
       class="emerald-btn"
-      (click)="showDialog = true"
+      (onClick)="showDialog = true"
       label="Create Company"
     />
   </div>
@@ -32,7 +32,7 @@
         placeholder="Select a City"
       />
     </div>
-    <div class="mt-5">
+    <div class="mt-5 space-x-2">
       <p-datepicker
         [(ngModel)]="dates"
         [showButtonBar]="true"
@@ -64,6 +64,12 @@
           </div>
         </ng-template>
       </p-datepicker>
+      <p-button
+        icon="pi pi-refresh"
+        class="emerald-btn"
+        (onClick)="onRefresh()"
+        label="Refresh"
+      />
     </div>
   </div>
   <div class="mt-5">
@@ -71,7 +77,10 @@
       [value]="filteredProducts"
       [columns]="tableColumns"
       [totalRecords]="totalRecords"
+      [rows]="pageSize"
+      [first]="(currentPage - 1) * pageSize"
       [rowsPerPageOptions]="rowsPerPageOptions"
+      [loading]="loading"
       [showIndex]="true"
       [showPhoto]="true"
       photoField="logo"
@@ -82,12 +91,19 @@
       [chipVariantFieldMap]="chipVariantFieldMap"
       actionsHeader=""
       actionsColWidth="3.5rem"
+      (pageChange)="onPageChange($event)"
     >
       <ng-template #actions let-row>
         <div class="flex items-center gap-2 justify-center">
-          <button (click)="detail(row)"><i class="cursor-pointer text-green-500 pi pi-eye"></i></button>
-          <button (click)="edit(row)"><i class="cursor-pointer text-amber-500 pi pi-pencil"></i></button>
-          <button (click)="remove(row)"><i class="cursor-pointer text-red-500 pi pi-trash"></i></button>
+          <button (click)="detail(row)">
+            <i class="cursor-pointer text-green-500 pi pi-eye"></i>
+          </button>
+          <button (click)="edit(row)">
+            <i class="cursor-pointer text-amber-500 pi pi-pencil"></i>
+          </button>
+          <button (click)="remove(row)">
+            <i class="cursor-pointer text-red-500 pi pi-trash"></i>
+          </button>
         </div>
       </ng-template>
     </ui-table>
@@ -105,5 +121,8 @@
     (confirm)="confirmDelete($event)"
   ></company-delete>
 
-  <company-detail [(visible)]="showDetailDrawer" [company]="selectedCompany"></company-detail>
+  <company-detail
+    [(visible)]="showDetailDrawer"
+    [companyId]="selectedCompanyId"
+  ></company-detail>
 </div>

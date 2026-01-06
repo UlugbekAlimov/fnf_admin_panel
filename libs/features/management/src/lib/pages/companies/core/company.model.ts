@@ -16,24 +16,26 @@ export interface AutoCompleteCompleteEvent {
 }
 
 export interface CompanyTable {
-    id: number;
-    name: string;
-    slug: string;
-    status: string;
-    country: string;
-    legal_name: string;
-    created_at: string;
-    updated_at: string;
-    logo: string;
-    statusVariant: string;
+  id: string;
+  name: string;
+  slug: string;
+  status: string;
+  country: string;
+  legal_name: string;
+  created_at: string;
+  updated_at: string;
+  logo: string;
+  statusVariant: string;
 }
 
 export interface CompanyApiItem {
-  id: number;
+  id: string;
   name: string;
   slug: string;
   legal_name?: string | null;
   country: string | null;
+  timezone?: string | null;
+  default_locale?: string | null;
   status: string;
   created_at: string;
   updated_at: string;

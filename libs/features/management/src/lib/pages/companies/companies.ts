@@ -3,9 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from '../../../../../../shared/table/table';
 import { CompaniesCreate } from './company-create/company-create';
 import { CompanyDelete } from './company-delete/company-delete';
-import { CompanyEdit } from './company-edit/company-edit';
 import { CompanyDetail } from './company-detail/company-detail';
-import { formatDate } from "../../../../../../shared/date/formatDate"
+import { formatDate } from '../../../../../../shared/date/formatDate';
 
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -28,7 +27,6 @@ import { CompanyService } from './core/company.service';
     UiTableComponent,
 
     CompaniesCreate,
-    CompanyEdit,
     CompanyDelete,
     CompanyDetail,
   ],
@@ -41,7 +39,7 @@ export class ManagementCompanies implements OnInit {
   showDeleteDialog = false;
   showDetailDrawer = false;
   selectedCompany: any | null = null;
-  selectedCompanyId: string | null = null;
+  selectedCompanyId: CompanyApiItem['id'] | null = null;
   items: any[] | undefined;
   currentPage = 1;
   pageSize = 10;
@@ -71,7 +69,7 @@ export class ManagementCompanies implements OnInit {
     { field: 'created_at', header: 'Created At' },
     { field: 'updated_at', header: 'Updated At' },
   ];
-  
+
   totalRecords = 0;
   rowsPerPageOptions = [10, 20];
 
@@ -114,10 +112,15 @@ export class ManagementCompanies implements OnInit {
     this.loading = true;
     this.companyService.getCompaniesByPage(page, this.pageSize).subscribe({
       next: (response) => {
-        const raw = response as unknown as { data?: CompanyApiItem[]; total?: number; page?: number } | CompanyApiItem[];
+        const raw = response as unknown as
+          | { data?: CompanyApiItem[]; total?: number; page?: number }
+          | CompanyApiItem[];
         const data = Array.isArray(raw)
           ? raw
-          : raw?.data ?? (raw as { items?: CompanyApiItem[]; results?: CompanyApiItem[] }).items ?? (raw as { results?: CompanyApiItem[] }).results ?? [];
+          : (raw?.data ??
+            (raw as { items?: CompanyApiItem[]; results?: CompanyApiItem[] }).items ??
+            (raw as { results?: CompanyApiItem[] }).results ??
+            []);
         this.currentPage = (raw as { page?: number })?.page ?? page;
         this.totalRecords = (raw as { total?: number })?.total ?? data.length;
         this.companies = data.map((company) => this.mapCompany(company));
@@ -152,14 +155,8 @@ export class ManagementCompanies implements OnInit {
   }
 
   detail(row: any) {
-    this.selectedCompanyId = String(row.id);
+    this.selectedCompanyId = row.id;
     this.showDetailDrawer = true;
-  }
-
-  updateCompany(updated: any) {
-    this.companies = this.companies.map((product) =>
-      product.id === updated.id ? { ...product, ...updated } : product,
-    );
   }
 
   confirmDelete(company: any) {

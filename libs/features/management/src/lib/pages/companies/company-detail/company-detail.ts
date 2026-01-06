@@ -1,7 +1,6 @@
 ﻿import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Drawer } from 'primeng/drawer';
-import { Button } from 'primeng/button';
 
 import { CompanyService } from '../core/company.service';
 import { CompanyApiItem } from '../core/company.model';
@@ -9,10 +8,12 @@ import { CompanyApiItem } from '../core/company.model';
 @Component({
   selector: 'company-detail',
   standalone: true,
-  imports: [CommonModule, Drawer, Button],
+  imports: [CommonModule, Drawer],
   templateUrl: './company-detail.html',
 })
 export class CompanyDetail implements OnChanges {
+  @ViewChild(Drawer) drawer?: Drawer;
+
   @Input() companyId: CompanyApiItem['id'] | null = null;
 
   @Input() set visible(value: boolean) {
@@ -43,8 +44,8 @@ export class CompanyDetail implements OnChanges {
     this.drawerVisible = value;
     this.visibleChange.emit(value);
 
+    this.company = null;
     if (!value) {
-      this.company = null;
       this.loading = false;
       this.error = false;
     }
@@ -62,7 +63,7 @@ export class CompanyDetail implements OnChanges {
 
     this.companyService.getCompanyById(this.companyId).subscribe({
       next: (res) => {
-        this.company = res; // тут уже минимум полей по твоему интерфейсу
+        this.company = res;
         this.loading = false;
       },
       error: () => {
@@ -70,5 +71,20 @@ export class CompanyDetail implements OnChanges {
         this.error = true;
       },
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.drawerVisible) {
+      return;
+    }
+    const container = this.drawer?.container;
+    const target = event.target as Node | null;
+    if (!container || !target) {
+      return;
+    }
+    if (!container.contains(target)) {
+      this.onVisibleChange(false);
+    }
   }
 }

@@ -64,12 +64,7 @@
           </div>
         </ng-template>
       </p-datepicker>
-      <p-button
-        icon="pi pi-refresh"
-        class="emerald-btn"
-        (onClick)="onRefresh()"
-        label="Refresh"
-      />
+      <p-button icon="pi pi-refresh" class="emerald-btn" (onClick)="onRefresh()" label="Refresh" />
     </div>
   </div>
   <div class="mt-5">
@@ -110,19 +105,11 @@
   </div>
 
   <companies-create [(visible)]="showDialog"></companies-create>
-  <company-edit
-    [(visible)]="showEditDialog"
-    [company]="selectedCompany"
-    (save)="updateCompany($event)"
-  ></company-edit>
   <company-delete
     [(visible)]="showDeleteDialog"
     [company]="selectedCompany"
     (confirm)="confirmDelete($event)"
   ></company-delete>
 
-  <company-detail
-    [(visible)]="showDetailDrawer"
-    [companyId]="selectedCompanyId"
-  ></company-detail>
+  <company-detail [(visible)]="showDetailDrawer" [companyId]="selectedCompanyId"></company-detail>
 </div>

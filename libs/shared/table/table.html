@@ -1,8 +1,16 @@
 <div class="card">
-  <p-table [value]="value" [tableStyle]="tableStyle" [loading]="loading">
+  <p-table
+    [value]="value"
+    [tableStyle]="tableStyle"
+    [loading]="loading"
+    [dataKey]="dataKey"
+    [selectionMode]="selectionMode"
+    [(selection)]="selection"
+    (selectionChange)="onSelectionChange($event)"
+  >
     <ng-template #header>
       <tr>
-        <th></th>
+        <th *ngIf="showSelection"><p-tableHeaderCheckbox /></th>
         <th *ngIf="showIndex">{{ indexHeader }}</th>
         <th *ngIf="showPhoto">{{ photoHeader }}</th>
         <th *ngFor="let col of columns">{{ col.header }}</th>
@@ -12,8 +20,8 @@
     </ng-template>
     <ng-template #body let-row let-rowIndex="rowIndex">
       <tr>
-        <td>
-          <p-tableCheckbox />
+        <td *ngIf="showSelection">
+          <p-tableCheckbox [value]="row" />
         </td>
         <td *ngIf="showIndex">{{ rowIndex + 1 + first }}</td>
         <td *ngIf="showPhoto">

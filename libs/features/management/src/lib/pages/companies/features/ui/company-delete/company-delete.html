@@ -1,0 +1,25 @@
+<p-dialog
+  header="Delete company"
+  [modal]="true"
+  [(visible)]="visible"
+  (onHide)="close()"
+  [style]="{ width: '28rem' }"
+>
+  <p class="text-sm text-slate-500 mb-6">
+    <ng-container *ngIf="(companies?.length ?? 0) > 1; else singleCompany">
+      Delete
+      <span class="font-semibold text-slate-900">{{ companies?.length ?? 0 }}</span>
+      companies?
+      This action cannot be undone.
+    </ng-container>
+    <ng-template #singleCompany>
+      Delete <span class="font-semibold text-slate-900">{{ company?.name || company?.slug }}</span>?
+      This action cannot be undone.
+    </ng-template>
+  </p>
+
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="close()" />
+    <p-button label="Delete" severity="danger" (click)="submit()" />
+  </div>
+</p-dialog>

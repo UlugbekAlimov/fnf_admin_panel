@@ -5,27 +5,15 @@ export interface CompanyCreate {
   country: string;
 }
 
-export interface Company {
+export type NormalizedCompanyList = {
+  data: CompanyApiItem[];
+  total: number;
   page: number;
-  pagSize: number;
-}
+};
 
 export interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
-}
-
-export interface CompanyTable {
-  id: string;
-  name: string;
-  slug: string;
-  status: string;
-  country: string;
-  legal_name: string;
-  created_at: string;
-  updated_at: string;
-  logo: string;
-  statusVariant: string;
 }
 
 export interface CompanyApiItem {
@@ -49,3 +37,12 @@ export interface CompanyListResponse {
   page_size: number;
   pages: number;
 }
+
+export type CompanyUpdate = {
+  name: string;
+  legal_name: string;
+  timezone: string;
+  default_locale: string;
+  status: string;
+  country: string;
+};

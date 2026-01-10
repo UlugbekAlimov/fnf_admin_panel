@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from '../../../../../../shared/table/table';
-import { CompaniesCreate } from './company-create/company-create';
-import { CompanyDelete } from './company-delete/company-delete';
-import { CompanyDetail } from './company-detail/company-detail';
+import { CompaniesCreate } from './features/ui/company-create/company-create';
+import { CompanyDetail } from './features/ui/company-detail/company-detail';
+import { CompanyDelete } from './features/ui/company-delete/company-delete';
 import { formatDate } from '../../../../../../shared/date/formatDate';
 
 import { Button } from 'primeng/button';
@@ -12,12 +13,13 @@ import { Select } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorState } from 'primeng/paginator';
-import { CompanyApiItem, CompanyTable } from './core/company.model';
-import { CompanyService } from './core/company.service';
+import { CompanyApiItem } from './features/model/company.model';
+import { CompaniesStore } from './features/model/company.store';
 @Component({
   selector: 'management-companies',
   standalone: true,
   imports: [
+    CommonModule,
     Button,
     InputTextModule,
     FormsModule,
@@ -34,132 +36,147 @@ import { CompanyService } from './core/company.service';
   styleUrls: ['./companies.css'],
 })
 export class ManagementCompanies implements OnInit {
-  showDialog: boolean = false;
+  showDialog = false;
   showEditDialog = false;
   showDeleteDialog = false;
   showDetailDrawer = false;
-  selectedCompany: any | null = null;
-  selectedCompanyId: CompanyApiItem['id'] | null = null;
-  items: any[] | undefined;
-  currentPage = 1;
-  pageSize = 10;
-  loading = false;
 
-  constructor(private companyService: CompanyService) {}
+  selectedCompany: any | null = null;
+  selectedCompanies: any[] = [];
+  selectedCompanyId: CompanyApiItem['id'] | null = null;
+
+  editingCompany: any | null = null;
+
+  constructor(public store: CompaniesStore) {}
 
   ngOnInit() {
-    this.loadCompanies(1);
+    this.store.load(1);
   }
-  searchTerm = '';
-  date: Date | undefined;
-  dates: Date[] | undefined;
-  companies: CompanyTable[] = [];
+
+  get searchTerm() {
+    return this.store.searchTerm();
+  }
+  set searchTerm(v: string) {
+    this.store.searchTerm.set(v);
+  }
+
+  get selectedPlan() {
+    return this.store.selectedPlan();
+  }
+  set selectedPlan(v: { name: string } | null) {
+    this.store.selectedPlan.set(v);
+  }
+
+  get selectedCity() {
+    return this.store.selectedCity();
+  }
+  set selectedCity(v: { name: string } | null) {
+    this.store.selectedCity.set(v);
+  }
+
+  get dates() {
+    return this.store.dates();
+  }
+  set dates(v: Date[] | undefined) {
+    this.store.dates.set(v);
+  }
 
   plans = [{ name: 'Enterprise' }, { name: 'Pro Team' }, { name: 'Startup' }];
   cities = [{ name: 'USA' }, { name: 'Germany' }, { name: 'Canada' }];
-  selectedPlan: { name: string } | null = null;
-  selectedCity: { name: string } | null = null;
 
   tableColumns = [
     { field: 'name', header: 'Name' },
     { field: 'slug', header: 'Slug' },
     { field: 'status', header: 'Status' },
     { field: 'country', header: 'Country' },
-    { field: 'legal_name', header: 'Legal Name' },
+    { field: 'timezone', header: 'Timezone' },
     { field: 'created_at', header: 'Created At' },
     { field: 'updated_at', header: 'Updated At' },
   ];
 
-  totalRecords = 0;
   rowsPerPageOptions = [10, 20];
-
   chipFields = ['status'];
   chipVariantFieldMap = { status: 'statusVariant' };
-
-  get filteredProducts() {
-    const term = this.searchTerm.trim().toLowerCase();
-    return this.companies.filter((product) => {
-      if (term && !product.name.toLowerCase().includes(term)) {
-        return false;
-      }
-      if (this.selectedPlan && product.legal_name !== this.selectedPlan.name) {
-        return false;
-      }
-      if (this.selectedCity && product.country !== this.selectedCity.name) {
-        return false;
-      }
-      return true;
-    });
-  }
-
-  edit(row: any) {
-    this.selectedCompany = row;
-    this.showEditDialog = true;
-  }
-
-  remove(row: any) {
-    this.selectedCompany = row;
-    this.showDeleteDialog = true;
-  }
-
-  onPageChange(event: PaginatorState) {
-    const page = (event.page ?? 0) + 1;
-    this.pageSize = event.rows ?? this.pageSize;
-    this.loadCompanies(page);
-  }
-
-  loadCompanies(page: number) {
-    this.loading = true;
-    this.companyService.getCompaniesByPage(page, this.pageSize).subscribe({
-      next: (response) => {
-        const raw = response as unknown as
-          | { data?: CompanyApiItem[]; total?: number; page?: number }
-          | CompanyApiItem[];
-        const data = Array.isArray(raw)
-          ? raw
-          : (raw?.data ??
-            (raw as { items?: CompanyApiItem[]; results?: CompanyApiItem[] }).items ??
-            (raw as { results?: CompanyApiItem[] }).results ??
-            []);
-        this.currentPage = (raw as { page?: number })?.page ?? page;
-        this.totalRecords = (raw as { total?: number })?.total ?? data.length;
-        this.companies = data.map((company) => this.mapCompany(company));
-        this.loading = false;
-      },
-      error: () => {
-        this.companies = [];
-        this.totalRecords = 0;
-        this.loading = false;
-      },
-    });
-  }
-
-  onRefresh() {
-    this.loadCompanies(this.currentPage);
-  }
-
-  private mapCompany(company: CompanyApiItem): CompanyTable {
-    const statusLabel = company.status === 'active' ? 'Active' : 'Inactive';
-    return {
-      id: company.id,
-      name: company.name,
-      slug: company.slug,
-      status: statusLabel,
-      country: company.country ?? '',
-      legal_name: company.legal_name ?? '',
-      created_at: formatDate(company.created_at),
-      updated_at: formatDate(company.updated_at),
-      logo: company.logo_url ?? '/favicon.ico',
-      statusVariant: company.status === 'active' ? 'success' : 'secondary',
-    };
-  }
 
   detail(row: any) {
     this.selectedCompanyId = row.id;
     this.showDetailDrawer = true;
   }
 
-  confirmDelete(company: any) {
-    this.companies = this.companies.filter((product) => product.id !== company.id);
+  onPageChange(event: PaginatorState) {
+    this.store.setPageFromPrime(event);
+  }
+
+  onRefresh() {
+    this.store.refresh();
+  }
+
+  edit(row: any) {
+    this.editingCompany = row;
+    this.store.openEdit({ id: row.id });
+    this.showDialog = true;
+  }
+
+  create() {
+    this.editingCompany = null;
+    this.store.openCreate();
+    this.showDialog = true;
+  }
+
+  remove(row: any) {
+    this.selectedCompany = row;
+    this.selectedCompanies = [];
+    this.store.openDelete({ id: row.id });
+    this.showDeleteDialog = true;
+  }
+
+  bulkRemove() {
+    if (this.selectedCompanies.length < 2) return;
+    this.selectedCompany = null;
+    this.showDeleteDialog = true;
+  }
+
+  confirmDelete(target?: any) {
+    const items = Array.isArray(target)
+      ? target
+      : target
+        ? [target]
+        : this.selectedCompany
+          ? [this.selectedCompany]
+          : this.selectedCompanies;
+    const ids = items.map((item: any) => item?.id).filter(Boolean);
+    if (!ids.length) return;
+
+    if (ids.length > 1) {
+      this.store.deleteMany(ids, {
+        closeOnSuccess: () => {
+          this.showDeleteDialog = false;
+          this.selectedCompanies = [];
+        },
+        refresh: true,
+      });
+      return;
+    }
+
+    this.store.delete({
+      closeOnSuccess: () => {
+        this.showDeleteDialog = false;
+        this.selectedCompany = null;
+      },
+      refresh: true,
+    });
+  }
+
+  onDialogVisibleChange(v: boolean) {
+    this.showDialog = v;
+    if (!v) this.editingCompany = null;
+  }
+
+  onDeleteDialogVisibleChange(v: boolean) {
+    this.showDeleteDialog = v;
+    if (!v) {
+      this.selectedCompany = null;
+      this.selectedCompanies = [];
+    }
   }
 }

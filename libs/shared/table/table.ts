@@ -45,15 +45,21 @@ export class UiTableComponent {
   @Input() emptyMessage = 'No records found';
   @Input() tableStyle: Record<string, string> = { 'min-width': '50rem' };
   @Input() loading = false;
+  @Input() selection: any[] = [];
+  @Input() selectionMode: 'single' | 'multiple' = 'multiple';
+  @Input() dataKey = 'id';
+  @Input() showSelection = true;
 
   @ContentChild('chip', { read: TemplateRef }) chipTemplate?: TemplateRef<any>;
   @ContentChild('actions', { read: TemplateRef }) actionsTemplate?: TemplateRef<any>;
 
   @Output() pageChange = new EventEmitter<PaginatorState>();
+  @Output() selectionChange = new EventEmitter<any[]>();
 
   get totalColumns() {
     return (
       this.columns.length +
+      (this.showSelection ? 1 : 0) +
       (this.showIndex ? 1 : 0) +
       (this.showPhoto ? 1 : 0) +
       (this.chipTemplate ? 1 : 0) +
@@ -81,6 +87,13 @@ export class UiTableComponent {
     this.first = event.first ?? 0;
     this.rows = event.rows ?? this.rows;
     this.pageChange.emit(event);
+  }
+
+  onSelectionChange(value: any) {
+    const raw = value?.value ?? value;
+    const normalized = Array.isArray(raw) ? raw : raw ? [raw] : [];
+    this.selection = normalized;
+    this.selectionChange.emit(normalized);
   }
 
   showActions(row: any): boolean {

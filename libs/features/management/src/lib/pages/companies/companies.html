@@ -4,7 +4,7 @@
     <p-button
       icon="pi pi-plus"
       class="emerald-btn"
-      (onClick)="showDialog = true"
+      (onClick)="create()"
       label="Create Company"
     />
   </div>
@@ -69,13 +69,13 @@
   </div>
   <div class="mt-5">
     <ui-table
-      [value]="filteredProducts"
+      [value]="store.filteredCompanies()"
       [columns]="tableColumns"
-      [totalRecords]="totalRecords"
-      [rows]="pageSize"
-      [first]="(currentPage - 1) * pageSize"
+      [totalRecords]="store.totalRecords()"
+      [rows]="store.pageSize()"
+      [first]="(store.currentPage() - 1) * store.pageSize()"
       [rowsPerPageOptions]="rowsPerPageOptions"
-      [loading]="loading"
+      [loading]="store.loading()"
       [showIndex]="true"
       [showPhoto]="true"
       photoField="logo"
@@ -84,9 +84,11 @@
       [subTextFieldMap]="{ name: 'slug' }"
       [chipFields]="chipFields"
       [chipVariantFieldMap]="chipVariantFieldMap"
+      [selection]="selectedCompanies"
+      (selectionChange)="selectedCompanies = $event"
       actionsHeader=""
       actionsColWidth="3.5rem"
-      (pageChange)="onPageChange($event)"
+      (pageChange)="store.setPageFromPrime($event)"
     >
       <ng-template #actions let-row>
         <div class="flex items-center gap-2 justify-center">
@@ -104,10 +106,25 @@
     </ui-table>
   </div>
 
-  <companies-create [(visible)]="showDialog"></companies-create>
+  <p-button
+    class="fixed bottom-20 right-6 shadow-lg bulk-delete-fab"
+    [class.bulk-delete-fab--visible]="selectedCompanies.length > 1"
+    icon="pi pi-trash"
+    severity="danger"
+    (onClick)="bulkRemove()"
+  />
+
+  <companies-create
+    [visible]="showDialog"
+    (visibleChange)="onDialogVisibleChange($event)"
+    [editingCompany]="editingCompany"
+  ></companies-create>
+
   <company-delete
-    [(visible)]="showDeleteDialog"
+    [visible]="showDeleteDialog"
+    (visibleChange)="onDeleteDialogVisibleChange($event)"
     [company]="selectedCompany"
+    [companies]="selectedCompanies"
     (confirm)="confirmDelete($event)"
   ></company-delete>
 

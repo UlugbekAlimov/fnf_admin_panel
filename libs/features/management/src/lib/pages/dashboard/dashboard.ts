@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { ChipComponent } from '../../../../../../shared/chip/chip';
-import { CompanyDetail } from '../companies/company-detail/company-detail';
+import { CompanyDetail } from '../companies/features/ui/company-detail/company-detail';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';

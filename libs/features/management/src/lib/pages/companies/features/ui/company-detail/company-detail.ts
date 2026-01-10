@@ -1,9 +1,18 @@
 ﻿import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, Output, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Drawer } from 'primeng/drawer';
 
-import { CompanyService } from '../core/company.service';
-import { CompanyApiItem } from '../core/company.model';
+import { CompanyService } from '../../data-access/company.service';
+import { CompanyApiItem } from '../../model/company.model';
 
 @Component({
   selector: 'company-detail',

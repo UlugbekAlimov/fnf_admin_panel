@@ -24,6 +24,7 @@ interface NavItem {
   label: string;
   icon: IconName;
   path?: string;
+  activePaths?: string[];
 }
 
 interface NavSection {
@@ -68,7 +69,12 @@ export class AdminLayoutComponent {
     {
       title: 'Education',
       items: [
-        { label: 'Courses & Content', icon: 'pi-book', path: '/education/courses' },
+        {
+          label: 'Courses & Content',
+          icon: 'pi-book',
+          path: '/education/courses',
+          activePaths: ['/education/courses', '/education/content'],
+        },
         { label: 'Groups & Enrollments', icon: 'pi-sitemap', path: '/education/groups' },
         { label: 'Tests & Assignments', icon: 'pi-shield', path: '/education/tests' },
       ],
@@ -105,7 +111,8 @@ export class AdminLayoutComponent {
 
     if (!item?.path) return false;
 
-    return this.router.url.startsWith(item.path);
+    const activePaths = item.activePaths?.length ? item.activePaths : [item.path];
+    return activePaths.some((path) => this.router.url.startsWith(path));
   }
 
   private buildBreadcrumbs(

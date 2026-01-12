@@ -29,6 +29,11 @@ export const appRoutes: Route[] = [
         path: 'education',
         data: { breadcrumb: 'Education' },
         loadChildren: () => import('@fnf-admin/education').then((m) => m.educationRoutes),
+      },
+      {
+        path: 'groups',
+        data: { breadcrumb: 'Education' },
+        loadChildren: () => import('@fnf-admin/education').then((m) => m.educationRoutes)
       }
     ],
   },

@@ -5,7 +5,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { UiTableComponent } from '../../../../../../../shared/table/table';
-import { CourseCreate } from './course-create/course-create';
+import { CourseCreate } from './features/ui/course-create/course-create';
 
 @Component({
   selector: 'education-courses-table',

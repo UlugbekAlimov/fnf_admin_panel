@@ -1,0 +1,61 @@
+<ng-container *ngIf="group as data; else notFound">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Group</p>
+      <h1 class="text-xl font-bold text-slate-900">{{ data.name }}</h1>
+      <div class="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <span>Subject</span>
+        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+          {{ data.subject }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Students</p>
+      <p class="mt-2 text-2xl font-semibold text-slate-900">{{ data.students.length }}</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Teacher</p>
+      <p class="mt-2 text-lg font-semibold text-slate-900">{{ data.teacher }}</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Weekly Sessions</p>
+      <p class="mt-2 text-2xl font-semibold text-slate-900">{{ data.sessionsPerWeek }}</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Status</p>
+      <p class="mt-2 text-lg font-semibold text-slate-900">{{ data.status }}</p>
+    </div>
+  </div>
+
+  <div class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-slate-900">Students in Group</h2>
+      <p class="text-sm text-slate-500">{{ data.students.length }} total</p>
+    </div>
+    <div class="mt-4">
+      <ui-table
+        [value]="data.students"
+        [columns]="tableColumns"
+        [totalRecords]="data.students.length"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 20]"
+        [showPhoto]="false"
+        [showIndex]="true"
+        [showSelection]="false"
+        [chipFields]="chipFields"
+        [chipVariantFieldMap]="chipVariantFieldMap"
+        [showPaginator]="false"
+      />
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #notFound>
+  <div class="rounded-2xl border border-slate-200 bg-white p-6 text-slate-500 shadow-sm">
+    Group not found.
+  </div>
+</ng-template>

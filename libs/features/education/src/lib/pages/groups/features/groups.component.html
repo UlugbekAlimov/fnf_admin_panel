@@ -1,0 +1,84 @@
+<div>
+  <div class="flex justify-between">
+    <h1>Companies</h1>
+    <p-button icon="pi pi-plus" class="emerald-btn" label="Create Company" />
+  </div>
+  <div class="flex justify-between">
+    <div class="mt-5 space-x-2">
+      <input class="" pInputText type="text" placeholder="Search company" />
+      <p-select icon="pi pi-upload" [options]="" optionLabel="name" placeholder="Plans"> </p-select>
+      <p-select [options]="" optionLabel="name" placeholder="Select a City" />
+    </div>
+    <div class="mt-5 space-x-2">
+      <p-datepicker
+        [showButtonBar]="true"
+        placeholder="Customized"
+        selectionMode="range"
+        [readonlyInput]="true"
+      >
+        <ng-template #buttonbar let-todayCallback="todayCallback" let-clearCallback="clearCallback">
+          <div class="flex justify-between w-full">
+            <div class="flex gap-2">
+              <p-button size="small" label="Exact" severity="secondary" />
+              <p-button size="small" label="Flexible" severity="secondary" />
+            </div>
+            <div class="flex gap-2">
+              <p-button
+                size="small"
+                label="Today"
+                (click)="todayCallback($event)"
+                variant="outlined"
+              />
+              <p-button
+                size="small"
+                icon="pi pi-times"
+                severity="danger"
+                variant="text"
+                (click)="clearCallback($event)"
+              />
+            </div>
+          </div>
+        </ng-template>
+      </p-datepicker>
+      <p-button icon="pi pi-refresh" class="emerald-btn" label="Refresh" />
+    </div>
+  </div>
+  <div class="mt-5">
+    <ui-table
+      [value]="mockCompanies"
+      [columns]="columns"
+      [totalRecords]="mockCompanies.length"
+      [rows]="pageSize"
+      [first]="(currentPage - 1) * pageSize"
+      [rowsPerPageOptions]="rowsPerPageOptions"
+      [loading]="loading"
+      [showIndex]="true"
+      [showPhoto]="true"
+      photoField="logo"
+      photoAltField="name"
+      photoHeader="Logo"
+      [subTextFieldMap]="{ name: 'slug' }"
+      [chipFields]="chipFields"
+      [chipVariantFieldMap]="chipVariantFieldMap"
+      [selection]="selectedCompanies"
+      (selectionChange)="selectedCompanies = $event"
+      actionsHeader=""
+      actionsColWidth="3.5rem"
+      (pageChange)="setPageFromPrime($event)"
+    >
+      <ng-template #actions let-row>
+        <div class="flex items-center gap-2 justify-center">
+          <button (click)="detail(row)">
+            <i class="cursor-pointer text-green-500 pi pi-eye"></i>
+          </button>
+          <button (click)="edit(row)">
+            <i class="cursor-pointer text-amber-500 pi pi-pencil"></i>
+          </button>
+          <button (click)="remove(row)">
+            <i class="cursor-pointer text-red-500 pi pi-trash"></i>
+          </button>
+        </div>
+      </ng-template>
+    </ui-table>
+  </div>
+</div>

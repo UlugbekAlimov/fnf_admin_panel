@@ -133,7 +133,9 @@ export class AdminLayoutComponent {
         url += `/${routeURL}`;
       }
 
-      const label = snapshot?.data?.['breadcrumb'];
+      const routeData = snapshot?.routeConfig?.data;
+      const rawLabel = routeData?.['breadcrumb'];
+      const label = typeof rawLabel === 'function' ? rawLabel(snapshot) : rawLabel;
       if (label) {
         breadcrumbs.push({ label, routerLink: url });
       }

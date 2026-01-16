@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { PaginatorState } from 'primeng/paginator';
 import { CompanyApiItem } from './features/model/company.model';
 import { CompaniesStore } from './features/model/company.store';
+import { Card } from "primeng/card";
 @Component({
   selector: 'management-companies',
   standalone: true,
@@ -27,11 +28,11 @@ import { CompaniesStore } from './features/model/company.store';
     DatePickerModule,
     ButtonModule,
     UiTableComponent,
-
     CompaniesCreate,
     CompanyDelete,
     CompanyDetail,
-  ],
+    Card
+],
   templateUrl: './companies.html',
   styleUrls: ['./companies.css'],
 })

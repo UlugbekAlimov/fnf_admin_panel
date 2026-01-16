@@ -3,6 +3,7 @@ import { CoursesTable } from './courses&content/courses/courses-table';
 import { EducationContent } from './courses&content/content/content';
 import { GroupsDetailComponent } from './groups/features/groups-detail/groups-detail.component';
 import { GroupsComponents } from './groups/features/groups.component';
+import { TestComponent } from './tests/test.component';
 
 export const educationRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'courses' },
@@ -30,4 +31,5 @@ export const educationRoutes: Routes = [
       },
     ],
   },
+  { path: 'tests', component: TestComponent },
 ];

@@ -1,0 +1,27 @@
+<section class="flex max-w-6xl flex-col gap-6 mt-4">
+  <div class="flex items-center justify-end">
+    <p-button
+      icon="pi pi-plus"
+      class="emerald-btn"
+      label="Add subscriber"
+      (click)="openCreateDialog()"
+    ></p-button>
+  </div>
+  <p-card>
+    <ng-template pTemplate="title">Subscribers</ng-template>
+    <ng-template pTemplate="content">
+      <ui-table
+        [value]="subscriberRows"
+        [columns]="subscriberColumns"
+        [chipFields]="['status']"
+        [chipVariantFieldMap]="{ status: 'statusVariant' }"
+        [showSelection]="false"
+        [showPaginator]="false"
+        [tableStyle]="{ 'min-width': '0' }"
+      ></ui-table>
+    </ng-template>
+  </p-card>
+</section>
+
+<platform-subscription-create [(visible)]="showCreateDialog" (create)="addSubscriber($event)">
+</platform-subscription-create>

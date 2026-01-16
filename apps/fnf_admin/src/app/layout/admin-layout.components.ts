@@ -63,31 +63,31 @@ export class AdminLayoutComponent {
       title: 'Management',
       items: [
         { label: 'Companies', icon: 'pi-building', path: '/management/companies' },
-        { label: 'Users & Roles', icon: 'pi-users', path: '/management/users-roles' },
+        // { label: 'Users & Roles', icon: 'pi-users', path: '/management/users-roles' },
       ],
     },
-    {
-      title: 'Education',
-      items: [
-        {
-          label: 'Courses & Content',
-          icon: 'pi-book',
-          path: '/education/courses',
-          activePaths: ['/education/courses', '/education/content'],
-        },
-        { label: 'Groups & Enrollments', icon: 'pi-sitemap', path: '/education/groups' },
-        { label: 'Tests & Assignments', icon: 'pi-shield', path: '/education/tests' },
-      ],
-    },
+    // {
+    //   title: 'Education',
+    //   items: [
+    //     {
+    //       label: 'Courses & Content',
+    //       icon: 'pi-book',
+    //       path: '/education/courses',
+    //       activePaths: ['/education/courses', '/education/content'],
+    //     },
+    //     { label: 'Groups & Enrollments', icon: 'pi-sitemap', path: '/education/groups' },
+    //     { label: 'Tests & Assignments', icon: 'pi-shield', path: '/education/tests' },
+    //   ],
+    // },
     {
       title: 'Platform',
       items: [
         { label: 'Billing & Subscriptions', icon: 'pi-credit-card', path: '/platform/billing' },
         { label: 'AI Settings', icon: 'pi-sparkles', path: '/platform/ai-settings' },
-        { label: 'Notebook LLM', icon: 'pi-file', path: '/platform/notebook' },
-        { label: 'Integrations', icon: 'pi-link', path: '/platform/integrations' },
-        { label: 'Analytics & Logs', icon: 'pi-chart-line', path: '/platform/analytics' },
-        { label: 'Marketing / CRM', icon: 'pi-megaphone', path: '/platform/marketing' },
+        // { label: 'Notebook LLM', icon: 'pi-file', path: '/platform/notebook' },
+        // { label: 'Integrations', icon: 'pi-link', path: '/platform/integrations' },
+        // { label: 'Analytics & Logs', icon: 'pi-chart-line', path: '/platform/analytics' },
+        // { label: 'Marketing / CRM', icon: 'pi-megaphone', path: '/platform/marketing' },
         { label: 'Settings', icon: 'pi-cog', path: '/platform/settings' },
       ],
     },

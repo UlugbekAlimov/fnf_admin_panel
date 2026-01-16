@@ -1,12 +1,7 @@
 <div>
   <div class="flex justify-between">
     <h1>Companies</h1>
-    <p-button
-      icon="pi pi-plus"
-      class="emerald-btn"
-      (onClick)="create()"
-      label="Create Company"
-    />
+    <p-button icon="pi pi-plus" class="emerald-btn" (onClick)="create()" label="Create Company" />
   </div>
   <div class="flex justify-between">
     <div class="mt-5 space-x-2">
@@ -67,43 +62,46 @@
       <p-button icon="pi pi-refresh" class="emerald-btn" (onClick)="onRefresh()" label="Refresh" />
     </div>
   </div>
+
   <div class="mt-5">
-    <ui-table
-      [value]="store.filteredCompanies()"
-      [columns]="tableColumns"
-      [totalRecords]="store.totalRecords()"
-      [rows]="store.pageSize()"
-      [first]="(store.currentPage() - 1) * store.pageSize()"
-      [rowsPerPageOptions]="rowsPerPageOptions"
-      [loading]="store.loading()"
-      [showIndex]="true"
-      [showPhoto]="true"
-      photoField="logo"
-      photoAltField="name"
-      photoHeader="Logo"
-      [subTextFieldMap]="{ name: 'slug' }"
-      [chipFields]="chipFields"
-      [chipVariantFieldMap]="chipVariantFieldMap"
-      [selection]="selectedCompanies"
-      (selectionChange)="selectedCompanies = $event"
-      actionsHeader=""
-      actionsColWidth="3.5rem"
-      (pageChange)="store.setPageFromPrime($event)"
-    >
-      <ng-template #actions let-row>
-        <div class="flex items-center gap-2 justify-center">
-          <button (click)="detail(row)">
-            <i class="cursor-pointer text-green-500 pi pi-eye"></i>
-          </button>
-          <button (click)="edit(row)">
-            <i class="cursor-pointer text-amber-500 pi pi-pencil"></i>
-          </button>
-          <button (click)="remove(row)">
-            <i class="cursor-pointer text-red-500 pi pi-trash"></i>
-          </button>
-        </div>
-      </ng-template>
-    </ui-table>
+    <p-card>
+      <ui-table
+        [value]="store.filteredCompanies()"
+        [columns]="tableColumns"
+        [totalRecords]="store.totalRecords()"
+        [rows]="store.pageSize()"
+        [first]="(store.currentPage() - 1) * store.pageSize()"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        [loading]="store.loading()"
+        [showIndex]="true"
+        [showPhoto]="true"
+        photoField="logo"
+        photoAltField="name"
+        photoHeader="Logo"
+        [subTextFieldMap]="{ name: 'slug' }"
+        [chipFields]="chipFields"
+        [chipVariantFieldMap]="chipVariantFieldMap"
+        [selection]="selectedCompanies"
+        (selectionChange)="selectedCompanies = $event"
+        actionsHeader=""
+        actionsColWidth="3.5rem"
+        (pageChange)="store.setPageFromPrime($event)"
+      >
+        <ng-template #actions let-row>
+          <div class="flex items-center gap-2 justify-center">
+            <button (click)="detail(row)">
+              <i class="cursor-pointer text-green-500 pi pi-eye"></i>
+            </button>
+            <button (click)="edit(row)">
+              <i class="cursor-pointer text-amber-500 pi pi-pencil"></i>
+            </button>
+            <button (click)="remove(row)">
+              <i class="cursor-pointer text-red-500 pi pi-trash"></i>
+            </button>
+          </div>
+        </ng-template>
+      </ui-table>
+    </p-card>
   </div>
 
   <p-button

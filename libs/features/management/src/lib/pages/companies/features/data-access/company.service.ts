@@ -17,27 +17,27 @@ export class CompanyService {
   constructor(private http: HttpClient) {}
 
   createCompany(dto: CompanyCreate) {
-    return this.http.post<any>(`${this.base}/api/companies`, dto);
+    return this.http.post<any>(`${this.base}/company/companies`, dto);
   }
 
   getCompaniesByPage(page: number, pageSize: number): Observable<NormalizedCompanyList> {
     const params = new HttpParams().set('page', page).set('page_size', pageSize);
 
     return this.http
-      .get<CompanyListResponse | CompanyApiItem[]>(`${this.base}/api/companies`, { params })
+      .get<CompanyListResponse | CompanyApiItem[]>(`${this.base}/company/companies`, { params })
       .pipe(map((raw) => normalizeCompanyList(raw, page)));
   }
 
   getCompanyById(id: CompanyApiItem['id']) {
-    return this.http.get<CompanyApiItem>(`${this.base}/api/companies/${id}`);
+    return this.http.get<CompanyApiItem>(`${this.base}/company/companies/${id}`);
   }
 
   updateCompany(companyId: string, dto: CompanyUpdate) {
-    return this.http.patch<any>(`${this.base}/api/companies/${companyId}`, dto);
+    return this.http.patch<any>(`${this.base}/company/companies/${companyId}`, dto);
   }
 
   deleteCompany(companyId: string){
-    return this.http.delete<void>(`${this.base}/api/companies/${companyId}`)
+    return this.http.delete<void>(`${this.base}/company/companies/${companyId}`)
   }
 }
 

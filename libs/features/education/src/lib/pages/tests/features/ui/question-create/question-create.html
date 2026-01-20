@@ -1,0 +1,98 @@
+<p-dialog
+  header="Add Test"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '36rem' }"
+  (onHide)="close()"
+>
+  <div class="space-y-6">
+    <div>
+      <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Question Text
+      </label>
+      <textarea
+        pInputTextarea
+        rows="3"
+        class="w-full"
+        [(ngModel)]="questionText"
+        placeholder="Write your question here..."
+      ></textarea>
+    </div>
+
+    <label class="flex items-start gap-3 text-sm text-slate-600">
+      <input type="checkbox" class="mt-1" [checked]="allowMultiple" (change)="toggleMultiple()" />
+      <span>
+        Allow multiple correct answers (Checkbox)
+        <span class="mt-1 block text-xs text-slate-400">
+          If unchecked, students can only select one option (Radio).
+        </span>
+      </span>
+    </label>
+
+    <div>
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <span>Answers</span>
+        <span>Select the correct answer(s)</span>
+      </div>
+
+      <div class="mt-2 space-y-2">
+        @for (option of answers; track option.id) {
+        <div class="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+          <button
+            type="button"
+            class="flex items-center gap-2 text-left"
+            (click)="markCorrect(option)"
+          >
+            <span
+              class="flex h-4 w-4 items-center justify-center rounded-full border border-slate-300"
+              [ngClass]="{
+                'border-emerald-500 bg-emerald-500': option.correct,
+                'bg-white': !option.correct
+              }"
+            >
+              @if (option.correct) {
+              <span class="h-2 w-2 rounded-full bg-white"></span>
+              }
+            </span>
+            <span class="text-sm text-slate-700">{{ option.text }}</span>
+          </button>
+          <button
+            type="button"
+            class="ml-auto text-slate-400 hover:text-red-500"
+            (click)="removeOption(option)"
+          >
+            <i class="pi pi-trash text-xs"></i>
+          </button>
+        </div>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="mt-3 flex items-center gap-2 text-emerald-600 text-sm"
+        (click)="addOption()"
+      >
+        <i class="pi pi-plus text-xs"></i>
+        <span>Add another option</span>
+      </button>
+    </div>
+
+    <div>
+      <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Explanation (Optional)
+      </label>
+      <textarea
+        pInputTextarea
+        rows="3"
+        class="w-full"
+        [(ngModel)]="explanation"
+        placeholder="Explain why the answer is correct..."
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end gap-2 border-t border-slate-100 pt-4">
+    <p-button label="Cancel" severity="secondary" (click)="close()" />
+    <p-button label="Save Question" (click)="close()" />
+  </div>
+</p-dialog>

@@ -1,1 +1,33 @@
-<p>test</p>
+<div>
+  <div class="flex items-center justify-between">
+    <h1>Tests</h1>
+    <div class="flex items-center gap-2">
+      <p-button
+        icon="pi pi-question-circle"
+        severity="secondary"
+        label="Add Test"
+        (onClick)="openQuestionDialog()"
+      />
+      <p-button icon="pi pi-plus" class="emerald-btn" label="Create Question" (onClick)="openDialog()" />
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <ui-table
+      [value]="tests"
+      [columns]="tableColumns"
+      [totalRecords]="tests.length"
+      [rows]="10"
+      [first]="0"
+      [rowsPerPageOptions]="[10, 20, 30]"
+      [loading]="false"
+      [showIndex]="true"
+      [chipFields]="chipFields"
+      [chipVariantFieldMap]="chipVariantFieldMap"
+    >
+    </ui-table>
+  </div>
+</div>
+
+<education-test-create [(visible)]="showDialog" (create)="addTest($event)"></education-test-create>
+<education-question-create [(visible)]="showQuestionDialog"></education-question-create>

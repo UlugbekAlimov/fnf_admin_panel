@@ -31,5 +31,5 @@ export const educationRoutes: Routes = [
       },
     ],
   },
-  { path: 'tests', component: TestComponent },
+  { path: 'tests', component: TestComponent, data: { breadcrumb: 'Tests' } },
 ];

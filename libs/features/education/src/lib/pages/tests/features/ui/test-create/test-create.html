@@ -1,0 +1,65 @@
+<p-dialog
+  header="Create Question"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '28rem' }"
+  (onHide)="close()"
+>
+  <div class="space-y-4">
+    <div>
+      <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Test name
+      </label>
+      <input
+        pInputText
+        type="text"
+        class="w-full"
+        [(ngModel)]="name"
+        placeholder="e.g. Midterm Assessment"
+      />
+    </div>
+
+    <div>
+      <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Course
+      </label>
+      <input
+        pInputText
+        type="text"
+        class="w-full"
+        [(ngModel)]="course"
+        placeholder="e.g. UX UI Design Fundamentals"
+      />
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+          Questions
+        </label>
+        <input pInputText type="number" class="w-full" [(ngModel)]="questions" placeholder="25" />
+      </div>
+      <div>
+        <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+          Duration
+        </label>
+        <input
+          pInputText
+          type="text"
+          class="w-full"
+          [(ngModel)]="duration"
+          placeholder="45 min"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="close()" />
+    <p-button
+      label="Create"
+      (click)="submit()"
+      [disabled]="!name.trim() || !course.trim()"
+    />
+  </div>
+</p-dialog>

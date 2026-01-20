@@ -20,10 +20,10 @@ export const appRoutes: Route[] = [
         path: 'companies',
         loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
       },
-      // {
-      //   path: 'users-roles',
-      //   loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
-      // },
+      {
+        path: 'users-roles',
+        loadChildren: () => import('@fnf-admin/management').then((m) => m.managementRoutes),
+      },
 
       {
         path: 'education',
@@ -39,10 +39,10 @@ export const appRoutes: Route[] = [
         path: 'groups',
         loadChildren: () => import('@fnf-admin/education').then((m) => m.educationRoutes)
       },
-      // {
-      //   path: 'tests',
-      //   loadChildren: () => import('@fnf-admin/education').then((m) => m.educationRoutes)
-      // }
+      {
+        path: 'tests',
+        loadChildren: () => import('@fnf-admin/education').then((m) => m.educationRoutes)
+      }
 
       // {
       //   path: 'platform',

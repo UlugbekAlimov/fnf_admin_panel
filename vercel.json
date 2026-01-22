@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npx nx build fnf_admin --configuration production",
+  "outputDirectory": "dist/apps/fnf_admin/browser",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

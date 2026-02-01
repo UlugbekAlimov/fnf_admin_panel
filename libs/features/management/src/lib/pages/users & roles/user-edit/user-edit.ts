@@ -13,19 +13,34 @@ import { Select } from 'primeng/select';
 })
 export class UserEdit {
   private currentUser: any | null = null;
+  private dialogVisible = false;
 
-  @Input() visible = false;
+  @Input() set visible(value: boolean) {
+    this.dialogVisible = value;
+    if (value && this.mode === 'create') {
+      this.reset();
+    }
+  }
+  get visible() {
+    return this.dialogVisible;
+  }
+  @Input() mode: 'create' | 'edit' = 'edit';
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() save = new EventEmitter<any>();
+  @Output() create = new EventEmitter<any>();
 
   @Input() set user(value: any | null) {
     this.currentUser = value;
-    this.editName = value?.name ?? value?.company ?? '';
-    this.editEmail = value?.email ?? '';
-    this.editRole = value?.role ? { name: value.role } : null;
-    this.editPlan = value?.plan ? { name: value.plan } : null;
-    this.editStatus = value?.status ? { name: value.status } : null;
-    this.editUsers = typeof value?.users === 'number' ? value.users : 0;
+    if (value) {
+      this.editName = value?.name ?? value?.company ?? '';
+      this.editEmail = value?.email ?? '';
+      this.editRole = value?.role ? { name: value.role } : null;
+      this.editPlan = value?.plan ? { name: value.plan } : null;
+      this.editStatus = value?.status ? { name: value.status } : null;
+      this.editUsers = typeof value?.users === 'number' ? value.users : 0;
+    } else if (this.mode === 'create') {
+      this.reset();
+    }
   }
   get user() {
     return this.currentUser;
@@ -47,6 +62,31 @@ export class UserEdit {
   }
 
   submit() {
+    if (this.mode === 'create') {
+      const name = this.editName.trim();
+      const email = this.editEmail.trim();
+      if (!name || !email) {
+        return;
+      }
+
+      const planName = this.editPlan?.name ?? 'Starter';
+      const statusName = this.editStatus?.name ?? 'Active';
+
+      const created = {
+        company: name,
+        name,
+        email,
+        role: this.editRole?.name ?? 'Viewer',
+        plan: planName,
+        status: statusName,
+        users: this.editUsers || 0
+      };
+
+      this.create.emit(created);
+      this.close();
+      return;
+    }
+
     if (!this.currentUser) {
       this.close();
       return;
@@ -82,5 +122,14 @@ export class UserEdit {
 
     this.save.emit(updated);
     this.close();
+  }
+
+  private reset() {
+    this.editName = '';
+    this.editEmail = '';
+    this.editRole = null;
+    this.editPlan = null;
+    this.editStatus = null;
+    this.editUsers = 0;
   }
 }

@@ -47,13 +47,14 @@ interface RoleOption {
   templateUrl: './admin-layout.components.html',
 })
 export class AdminLayoutComponent implements OnInit {
+  private readonly ROLE_STORAGE_KEY = 'fnf_admin_active_role';
   home: MenuItem = { icon: 'pi pi-home', routerLink: '/management/dashboard' };
   breadcrumbs: MenuItem[] = [];
   roles: RoleOption[] = [
     { label: 'Global (Super Admin)', value: 'superadmin' },
     { label: 'Admin', value: 'admin' },
     { label: 'Teacher', value: 'teacher' },
-    { label: 'Company', value: 'company' },
+    // { label: 'Company', value: 'company' },
   ];
   activeRole = this.roles[0];
   isRoleMenuOpen = false;
@@ -65,6 +66,7 @@ export class AdminLayoutComponent implements OnInit {
 
   selectRole(role: RoleOption) {
     this.activeRole = role;
+    this.persistRole(role);
     this.isRoleMenuOpen = false;
   }
 
@@ -81,6 +83,10 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const storedRole = this.readStoredRole();
+    if (storedRole) {
+      this.activeRole = storedRole;
+    }
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);
@@ -216,6 +222,24 @@ export class AdminLayoutComponent implements OnInit {
 
   hasVisibleItems(section: NavSection): boolean {
     return section.items.some((item) => this.isItemVisible(item));
+  }
+
+  private readStoredRole(): RoleOption | null {
+    try {
+      const raw = localStorage.getItem(this.ROLE_STORAGE_KEY);
+      if (!raw) return null;
+      return this.roles.find((role) => role.value === (raw as Role)) ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  private persistRole(role: RoleOption): void {
+    try {
+      localStorage.setItem(this.ROLE_STORAGE_KEY, role.value);
+    } catch {
+      // ignore storage errors
+    }
   }
 
   private buildBreadcrumbs(

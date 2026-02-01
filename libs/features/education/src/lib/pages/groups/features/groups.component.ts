@@ -4,16 +4,20 @@ import { UiTableComponent } from 'libs/shared/table/table';
 import { Button } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
 import { Select } from 'primeng/select';
+import { Dialog } from 'primeng/dialog';
+import { GroupCreate } from './ui/group-create/group-create';
+import { GroupStore } from './model/group.store';
 
 @Component({
   selector: 'education-groups',
-  imports: [UiTableComponent, Button, DatePicker, Select],
+  imports: [UiTableComponent, Button, DatePicker, Select, Dialog, GroupCreate],
   templateUrl: 'groups.component.html',
 })
 export class GroupsComponents {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    public store: GroupStore
   ) {}
   columns: any[] = [
     { field: 'name', header: 'Course Name' },
@@ -31,19 +35,23 @@ export class GroupsComponents {
     status: 'statusVariant',
   };
   selectedCompanies: any[] = [];
-  mockCompanies = [
-    {
-      id: 1,
-      name: 'Northwind Logistics',
-      slug: 'northwind-logistics',
-      logo: 'https://picsum.photos/seed/northwind/64',
-      city: 'Almaty',
-      plan: 'Enterprise',
-      status: 'Active',
-      statusVariant: 'success',
-      created_at: '12.01.2025',
-    },
-  ];
+  showDialog = false;
+  showDeleteDialog = false;
+  selectedGroup: any | null = null;
+  editingGroup: any | null = null;
+
+  get mockCompanies() {
+    return this.store.rows();
+  }
+
+  refresh() {
+    this.store.loadGroups();
+  }
+
+  openCreate() {
+    this.editingGroup = null;
+    this.showDialog = true;
+  }
 
   setPageFromPrime(event: any) {
     const rows = event?.rows ?? this.pageSize;
@@ -57,7 +65,42 @@ export class GroupsComponents {
     this.router.navigate(['/education/groups', row.id]);
   }
 
-  edit(_row: any) {}
+  remove(row: any) {
+    this.selectedGroup = row;
+    this.showDeleteDialog = true;
+  }
 
-  remove(_row: any) {}
+  edit(row: any) {
+    this.editingGroup = row;
+    this.showDialog = true;
+  }
+
+  createGroup(payload: any) {
+    this.store.createGroup(payload, { closeOnSuccess: () => (this.showDialog = false) });
+  }
+
+  updateGroup(payload: { id: number; data: any }) {
+    this.store.updateGroup(payload.id, payload.data, {
+      closeOnSuccess: () => {
+        this.showDialog = false;
+        this.editingGroup = null;
+      }
+    });
+  }
+
+  confirmDelete() {
+    if (!this.selectedGroup?.id) return;
+    this.store.deleteGroup(this.selectedGroup.id);
+    this.showDeleteDialog = false;
+    this.selectedGroup = null;
+  }
+
+  closeDeleteDialog() {
+    this.showDeleteDialog = false;
+    this.selectedGroup = null;
+  }
+
+  ngOnInit() {
+    this.store.loadGroups();
+  }
 }

@@ -8,19 +8,34 @@
         label="Add Test"
         (onClick)="openQuestionDialog()"
       />
-      <p-button icon="pi pi-plus" class="emerald-btn" label="Create Question" (onClick)="openDialog()" />
+      <p-button
+        icon="pi pi-plus"
+        class="emerald-btn"
+        label="Create Question"
+        (onClick)="openDialog()"
+      />
     </div>
+  </div>
+
+  <div class="mt-4">
+    <p-select
+      [options]="viewOptions"
+      optionLabel="name"
+      [(ngModel)]="selectedView"
+      placeholder="Select view"
+      class="w-56"
+    ></p-select>
   </div>
 
   <div class="mt-5">
     <ui-table
-      [value]="tests"
+      [value]="tableRows"
       [columns]="tableColumns"
-      [totalRecords]="tests.length"
+      [totalRecords]="totalRecords"
       [rows]="10"
       [first]="0"
       [rowsPerPageOptions]="[10, 20, 30]"
-      [loading]="false"
+      [loading]="isQuestionsView ? questionStore.loading() : store.loading()"
       [showIndex]="true"
       [chipFields]="chipFields"
       [chipVariantFieldMap]="chipVariantFieldMap"
@@ -29,5 +44,5 @@
   </div>
 </div>
 
+<education-question-create [(visible)]="showQuestionDialog" (create)="addQuestion($event)"></education-question-create>
 <education-test-create [(visible)]="showDialog" (create)="addTest($event)"></education-test-create>
-<education-question-create [(visible)]="showQuestionDialog"></education-question-create>

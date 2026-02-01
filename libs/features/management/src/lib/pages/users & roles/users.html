@@ -37,7 +37,10 @@
       </p-datepicker>
     </div>
     <div class="mt-5">
-        <p-select optionLabel="name" placeholder="Bulk actions" />
+        <div class="flex items-center gap-2">
+          <p-select optionLabel="name" placeholder="Bulk actions" />
+          <p-button class="emerald-btn" label="Add user" icon="pi pi-plus" (click)="openCreate()"></p-button>
+        </div>
     </div>
   </div>
   <div class="mt-5">
@@ -67,7 +70,14 @@
   <user-edit
     [(visible)]="showEditDialog"
     [user]="selectedUser"
+    mode="edit"
     (save)="updateUser($event)"
+  ></user-edit>
+  <user-edit
+    [(visible)]="showCreateDialog"
+    [user]="null"
+    mode="create"
+    (create)="createUser($event)"
   ></user-edit>
   <user-delete
     [(visible)]="showDeleteDialog"

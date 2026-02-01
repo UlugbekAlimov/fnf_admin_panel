@@ -1,5 +1,12 @@
-﻿<p-dialog header="Edit user" [modal]="true" [(visible)]="visible" [style]="{ width: '32rem' }">
-  <p class="text-sm text-slate-500 mb-4">Update user information.</p>
+﻿<p-dialog
+  [header]="mode === 'create' ? 'Create user' : 'Edit user'"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '32rem' }"
+>
+  <p class="text-sm text-slate-500 mb-4">
+    {{ mode === 'create' ? 'Add a new user.' : 'Update user information.' }}
+  </p>
 
   <div class="space-y-4">
     <div class="grid gap-4 md:grid-cols-2">
@@ -53,6 +60,6 @@
 
   <div class="mt-6 flex justify-end gap-2">
     <p-button label="Cancel" severity="secondary" (click)="close()" />
-    <p-button label="Save" (click)="submit()" />
+    <p-button [label]="mode === 'create' ? 'Create' : 'Save'" (click)="submit()" />
   </div>
 </p-dialog>

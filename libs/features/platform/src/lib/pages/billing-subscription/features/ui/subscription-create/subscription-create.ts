@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { Dialog } from "primeng/dialog";
@@ -20,10 +20,12 @@ export type SubscriptionDraft = {
   imports: [CommonModule, FormsModule, ButtonModule, Dialog, InputTextModule],
   templateUrl: "./subscription-create.html"
 })
-export class SubscriptionCreateComponent {
+export class SubscriptionCreateComponent implements OnChanges {
   @Input() visible = false;
+  @Input() editingSubscription: (SubscriptionDraft & { id: string }) | null = null;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() create = new EventEmitter<SubscriptionDraft>();
+  @Output() update = new EventEmitter<{ id: string; data: SubscriptionDraft }>();
 
   companyId = "";
   planId = "";
@@ -32,8 +34,35 @@ export class SubscriptionCreateComponent {
   currentPeriodStart = "";
   currentPeriodEnd = "";
 
+  get isEditMode(): boolean {
+    return !!this.editingSubscription;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes["editingSubscription"]) {
+      if (this.editingSubscription) {
+        this.companyId = this.editingSubscription.company_id ?? "";
+        this.planId = this.editingSubscription.plan_id ?? "";
+        this.status = this.editingSubscription.status ?? "active";
+        this.billingCycle = this.editingSubscription.billing_cycle ?? "monthly";
+        this.currentPeriodStart = this.editingSubscription.current_period_start ?? "";
+        this.currentPeriodEnd = this.editingSubscription.current_period_end ?? "";
+      } else {
+        this.reset();
+      }
+    }
+  }
+
   close() {
+    this.reset();
     this.visibleChange.emit(false);
+  }
+
+  handleVisibleChange(value: boolean) {
+    if (!value) {
+      this.reset();
+      this.visibleChange.emit(false);
+    }
   }
 
   submit() {
@@ -52,7 +81,11 @@ export class SubscriptionCreateComponent {
       current_period_end: this.currentPeriodEnd.trim()
     };
 
-    this.create.emit(draft);
+    if (this.editingSubscription) {
+      this.update.emit({ id: this.editingSubscription.id, data: draft });
+    } else {
+      this.create.emit(draft);
+    }
     this.reset();
     this.visibleChange.emit(false);
   }

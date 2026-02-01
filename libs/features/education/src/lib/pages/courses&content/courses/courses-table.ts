@@ -4,8 +4,10 @@ import { Button } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
+import { Dialog } from 'primeng/dialog';
 import { UiTableComponent } from '../../../../../../../shared/table/table';
 import { CourseCreate } from './features/ui/course-create/course-create';
+import { CourseStore } from './model/course.store';
 
 @Component({
   selector: 'education-courses-table',
@@ -17,6 +19,7 @@ import { CourseCreate } from './features/ui/course-create/course-create';
     DatePickerModule,
     InputTextModule,
     Select,
+    Dialog,
     UiTableComponent,
     CourseCreate,
   ],
@@ -31,31 +34,15 @@ export class CoursesTable {
   selectedPlan: { name: string } | null = null;
   selectedCity: { name: string } | null = null;
 
-  showEditDialog = false;
   showDeleteDialog = false;
   showDetailDrawer = false;
   selectedCompany: any | null = null;
+  editingCourse: any | null = null;
   items: any[] | undefined;
 
   ngOnInit() {}
 
   date: Date | undefined;
-
-  products = [
-    {
-      id: 1,
-      name: 'UX UI Design Fundamentals',
-      slug: 'ux ui design-fundamentals',
-      level: 'Beginner',
-      language: 'English',
-      students: 1200,
-      status: 'Published',
-      createdAt: '2023-01-12',
-      logo: '/favicon.ico',
-
-      statusVariant: 'success',
-    },
-  ];
 
   tableColumns = [
     { field: 'name', header: 'Name' },
@@ -65,15 +52,27 @@ export class CoursesTable {
     { field: 'status', header: 'Status' },
     { field: 'createdAt', header: 'Created At' },
   ];
-  totalRecords = 120;
   rowsPerPageOptions = [10, 20, 30];
 
   chipFields = ['status'];
   chipVariantFieldMap = { status: 'statusVariant' };
 
+  get products() {
+    return this.store.rows();
+  }
+
+  get totalRecords() {
+    return this.products.length;
+  }
+
+  openCreate() {
+    this.editingCourse = null;
+    this.showDialog = true;
+  }
+
   edit(row: any) {
-    this.selectedCompany = row;
-    this.showEditDialog = true;
+    this.editingCourse = row;
+    this.showDialog = true;
   }
 
   remove(row: any) {
@@ -84,5 +83,34 @@ export class CoursesTable {
   detail(row: any) {
     this.selectedCompany = row;
     this.showDetailDrawer = true;
+  }
+
+  createCourse(payload: any) {
+    this.store.createCourse(payload, { closeOnSuccess: () => (this.showDialog = false) });
+  }
+
+  updateCourse(payload: { id: number; data: any }) {
+    this.store.updateCourse(payload.id, payload.data, {
+      closeOnSuccess: () => {
+        this.showDialog = false;
+        this.editingCourse = null;
+      }
+    });
+  }
+
+  confirmDelete() {
+    if (!this.selectedCompany?.id) return;
+    this.store.deleteCourse(this.selectedCompany.id);
+    this.showDeleteDialog = false;
+    this.selectedCompany = null;
+  }
+
+  closeDeleteDialog() {
+    this.showDeleteDialog = false;
+    this.selectedCompany = null;
+  }
+
+  constructor(public store: CourseStore) {
+    this.store.loadCourses();
   }
 }

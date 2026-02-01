@@ -18,10 +18,45 @@
         [showSelection]="false"
         [showPaginator]="false"
         [tableStyle]="{ 'min-width': '0' }"
-      ></ui-table>
+        actionsHeader=""
+        actionsColWidth="3.5rem"
+      >
+        <ng-template #actions let-row>
+          <div class="flex items-center justify-center gap-2">
+            <button type="button" (click)="openEditSubscriber(row); $event.stopPropagation()">
+              <i class="cursor-pointer text-amber-500 pi pi-pencil"></i>
+            </button>
+            <button type="button" (click)="openDeleteSubscriber(row); $event.stopPropagation()">
+              <i class="cursor-pointer text-red-500 pi pi-trash"></i>
+            </button>
+          </div>
+        </ng-template>
+      </ui-table>
     </ng-template>
   </p-card>
 </section>
 
-<platform-subscription-create [(visible)]="showCreateDialog" (create)="addSubscriber($event)">
+<platform-subscription-create
+  [(visible)]="showCreateDialog"
+  [editingSubscription]="editingSubscription"
+  (create)="addSubscriber($event)"
+  (update)="updateSubscriber($event)"
+>
 </platform-subscription-create>
+
+<p-dialog
+  header="Delete subscriber"
+  [modal]="true"
+  [(visible)]="showDeleteDialog"
+  (onHide)="closeDeleteDialog()"
+  [style]="{ width: '28rem' }"
+>
+  <p class="text-sm text-slate-500 mb-6">
+    Delete <span class="font-semibold text-slate-900">{{ deletingCompanyId || 'this subscriber' }}</span>?
+    This action cannot be undone.
+  </p>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="closeDeleteDialog()"></p-button>
+    <p-button label="Delete" severity="danger" (click)="deleteSubscriber()"></p-button>
+  </div>
+</p-dialog>

@@ -8,6 +8,19 @@
   <div class="space-y-6">
     <div>
       <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Test name
+      </label>
+      <input
+        pInputText
+        type="text"
+        class="w-full"
+        [(ngModel)]="testName"
+        placeholder="e.g. Midterm Assessment"
+      />
+    </div>
+
+    <div>
+      <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-400">
         Question Text
       </label>
       <textarea
@@ -38,11 +51,7 @@
       <div class="mt-2 space-y-2">
         @for (option of answers; track option.id) {
         <div class="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-          <button
-            type="button"
-            class="flex items-center gap-2 text-left"
-            (click)="markCorrect(option)"
-          >
+          <button type="button" class="flex items-center gap-2" (click)="markCorrect(option)">
             <span
               class="flex h-4 w-4 items-center justify-center rounded-full border border-slate-300"
               [ngClass]="{
@@ -54,8 +63,14 @@
               <span class="h-2 w-2 rounded-full bg-white"></span>
               }
             </span>
-            <span class="text-sm text-slate-700">{{ option.text }}</span>
           </button>
+          <input
+            pInputText
+            type="text"
+            class="w-full text-sm"
+            [(ngModel)]="option.text"
+            placeholder="Answer option"
+          />
           <button
             type="button"
             class="ml-auto text-slate-400 hover:text-red-500"
@@ -93,6 +108,6 @@
 
   <div class="mt-6 flex items-center justify-end gap-2 border-t border-slate-100 pt-4">
     <p-button label="Cancel" severity="secondary" (click)="close()" />
-    <p-button label="Save Question" (click)="close()" />
+    <p-button label="Save Question" (onClick)="submit()" />
   </div>
 </p-dialog>

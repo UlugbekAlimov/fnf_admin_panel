@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
 type AnswerOption = {
@@ -11,16 +12,26 @@ type AnswerOption = {
   correct: boolean;
 };
 
+export type QuestionCreatePayload = {
+  testName: string;
+  text: string;
+  type: string;
+  answers: number;
+  status: string;
+};
+
 @Component({
   selector: 'education-question-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, Dialog, Button, TextareaModule],
+  imports: [CommonModule, FormsModule, Dialog, Button, TextareaModule, InputTextModule],
   templateUrl: './question-create.html',
 })
 export class QuestionCreate {
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
+  @Output() create = new EventEmitter<QuestionCreatePayload>();
 
+  testName = '';
   questionText = 'What is the primary function of the mitochondria in a cell?';
   explanation = '';
   allowMultiple = false;
@@ -69,5 +80,25 @@ export class QuestionCreate {
         correct: firstCorrect ? item.id === firstCorrect.id : false,
       }));
     }
+  }
+
+  submit() {
+    const text = this.questionText.trim();
+    if (!text) return;
+
+    this.create.emit({
+      testName: this.testName.trim() || 'Unassigned',
+      text,
+      type: this.allowMultiple ? 'Multiple choice' : 'Single choice',
+      answers: this.answers.length,
+      status: 'Draft',
+    });
+
+    this.testName = '';
+    this.questionText = '';
+    this.explanation = '';
+    this.allowMultiple = false;
+    this.answers = [];
+    this.close();
   }
 }

@@ -1,7 +1,7 @@
 <div>
   <div class="flex justify-between">
-    <h1>Companies</h1>
-    <p-button icon="pi pi-plus" class="emerald-btn" label="Create Company" />
+    <h1>Groups</h1>
+    <p-button icon="pi pi-plus" class="emerald-btn" label="Create Group" (click)="openCreate()" />
   </div>
   <div class="flex justify-between">
     <div class="mt-5 space-x-2">
@@ -40,7 +40,7 @@
           </div>
         </ng-template>
       </p-datepicker>
-      <p-button icon="pi pi-refresh" class="emerald-btn" label="Refresh" />
+      <p-button icon="pi pi-refresh" class="emerald-btn" label="Refresh" (click)="refresh()" />
     </div>
   </div>
   <div class="mt-5">
@@ -82,3 +82,27 @@
     </ui-table>
   </div>
 </div>
+
+<education-group-create
+  [(visible)]="showDialog"
+  [editingGroup]="editingGroup"
+  (create)="createGroup($event)"
+  (update)="updateGroup($event)"
+></education-group-create>
+
+<p-dialog
+  header="Delete group"
+  [modal]="true"
+  [(visible)]="showDeleteDialog"
+  (onHide)="closeDeleteDialog()"
+  [style]="{ width: '28rem' }"
+>
+  <p class="text-sm text-slate-500 mb-6">
+    Delete <span class="font-semibold text-slate-900">{{ selectedGroup?.name || 'this group' }}</span>?
+    This action cannot be undone.
+  </p>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="closeDeleteDialog()"></p-button>
+    <p-button label="Delete" severity="danger" (click)="confirmDelete()"></p-button>
+  </div>
+</p-dialog>
